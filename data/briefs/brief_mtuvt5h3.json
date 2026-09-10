@@ -1,0 +1,55 @@
+{
+  "briefId": "brief_mtuvt5h3",
+  "client": "Acme Logistics",
+  "createdAt": "2026-09-10T02:01:51.351Z",
+  "refinedBy": "ollama-local",
+  "answers": [
+    {
+      "id": "topic",
+      "transcript": "We are rolling out a new expense process in Q4 called Spendly"
+    },
+    {
+      "id": "behavior",
+      "transcript": "People email receipts to their manager at month end, we need them to submit in the Spendly app within seven days with a photo of the receipt",
+      "followUpTranscript": "Last month a driver lost three hundred dollars of fuel receipts in his truck"
+    },
+    {
+      "id": "audience",
+      "transcript": "About 340 warehouse staff and drivers, mostly on their phones"
+    },
+    {
+      "id": "language",
+      "transcript": "Must say expense it dont stress it, avoid the word audit, Spendly is pronounced SPEND-lee"
+    },
+    {
+      "id": "tone",
+      "transcript": "Upbeat summer pop, a little cheeky"
+    }
+  ],
+  "brief": {
+    "objective": "The new expense process in Q4 called Spendly is being rolled out, and people need to submit receipts within seven days.",
+    "behaviorChange": "People should submit receipts in the Spendly app within seven days with a photo of the receipt.",
+    "requiredMessages": [
+      "Submit receipts in the Spendly app within seven days with a photo of the receipt.",
+      "Don't stress about the expense process, just do it right."
+    ],
+    "stories": [
+      "A driver lost three hundred dollars of fuel receipts in his truck last month."
+    ],
+    "audience": "About 340 warehouse staff and drivers, mostly on their phones.",
+    "tone": "Upbeat summer pop, a little cheeky.",
+    "references": [
+      "Spendly"
+    ],
+    "mustSay": [
+      "expense it dont stress it",
+      "Spendly is pronounced SPEND-lee"
+    ],
+    "banned": [
+      "audit"
+    ],
+    "pronunciations": {
+      "Spendly": "SPEND-lee"
+    }
+  }
+}

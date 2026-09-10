@@ -1,0 +1,29 @@
+{
+  "sessionId": "rev_mtuvtiyg",
+  "track": "demo-bed-60s",
+  "createdAt": "2026-09-10T02:02:08.824Z",
+  "notes": [
+    {
+      "noteId": "ex1",
+      "atSeconds": 5,
+      "section": "Intro",
+      "transcript": "Love the intro, keep the drums exactly like this",
+      "element": "drums",
+      "verdict": "keep",
+      "priority": "low",
+      "action": "Keep the intro drums as is.",
+      "classifiedBy": "rules"
+    },
+    {
+      "noteId": "ex4",
+      "atSeconds": 37,
+      "section": "Verse 2",
+      "transcript": "Verse two is corny, the Spendly line sounds like an ad",
+      "element": "lyrics",
+      "verdict": "change",
+      "priority": "high",
+      "action": "Rewrite the Verse 2 Spendly line so it lands as a story, not a slogan.",
+      "classifiedBy": "rules"
+    }
+  ]
+}
