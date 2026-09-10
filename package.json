@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "demo": "node scripts/demo-recall-check.ts"
   },
   "dependencies": {
     "next": "16.3.4",

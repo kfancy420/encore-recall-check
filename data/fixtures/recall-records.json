@@ -1,0 +1,486 @@
+[
+  {
+    "recordId": "fix_001",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Dana R.",
+    "department": "Warehouse",
+    "checkedAt": "2026-09-09T17:02:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T17:02:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "It goes in Spendly now, the app, not email anymore.",
+        "recalled": true,
+        "confidence": 0.79,
+        "evidence": "said \"spendly\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "Uh, by the end of the month like before?",
+        "recalled": false,
+        "confidence": 0.71,
+        "evidence": "gave the old deadline"
+      },
+      {
+        "messageId": "M3",
+        "transcript": "A photo of the receipt.",
+        "recalled": true,
+        "confidence": 0.83,
+        "evidence": "said \"photo\""
+      }
+    ],
+    "messageRecallRate": 0.667,
+    "behaviorRecalled": false,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_002",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Marcus T.",
+    "department": "Dispatch",
+    "checkedAt": "2026-09-09T17:09:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T17:09:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "We put it in the app on our phone.",
+        "recalled": true,
+        "confidence": 0.71,
+        "evidence": "said \"the app\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "Uh, by the end of the month like before?",
+        "recalled": false,
+        "confidence": 0.84,
+        "evidence": "gave the old deadline"
+      },
+      {
+        "messageId": "M3",
+        "transcript": "You have to attach the receipt, like a picture of it.",
+        "recalled": true,
+        "confidence": 0.94,
+        "evidence": "said \"picture\""
+      }
+    ],
+    "messageRecallRate": 0.667,
+    "behaviorRecalled": false,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_003",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Priya K.",
+    "department": "Warehouse",
+    "checkedAt": "2026-09-09T17:16:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T17:16:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "It goes in Spendly now, the app, not email anymore.",
+        "recalled": true,
+        "confidence": 0.71,
+        "evidence": "said \"spendly\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "Uh, by the end of the month like before?",
+        "recalled": false,
+        "confidence": 0.91,
+        "evidence": "gave the old deadline"
+      },
+      {
+        "messageId": "M3",
+        "transcript": "A photo of the receipt.",
+        "recalled": true,
+        "confidence": 0.77,
+        "evidence": "said \"photo\""
+      }
+    ],
+    "messageRecallRate": 0.667,
+    "behaviorRecalled": false,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_004",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Luis O.",
+    "department": "Drivers",
+    "checkedAt": "2026-09-09T17:23:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T17:23:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "It goes in Spendly now, the app, not email anymore.",
+        "recalled": true,
+        "confidence": 0.79,
+        "evidence": "said \"spendly\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "Uh, by the end of the month like before?",
+        "recalled": false,
+        "confidence": 0.84,
+        "evidence": "gave the old deadline"
+      },
+      {
+        "messageId": "M3",
+        "transcript": "A photo of the receipt.",
+        "recalled": true,
+        "confidence": 0.72,
+        "evidence": "said \"photo\""
+      }
+    ],
+    "messageRecallRate": 0.667,
+    "behaviorRecalled": false,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_005",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Jen W.",
+    "department": "Dispatch",
+    "checkedAt": "2026-09-09T17:30:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T17:30:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "It goes in Spendly now, the app, not email anymore.",
+        "recalled": true,
+        "confidence": 0.85,
+        "evidence": "said \"spendly\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "Uh, by the end of the month like before?",
+        "recalled": false,
+        "confidence": 0.81,
+        "evidence": "gave the old deadline"
+      },
+      {
+        "messageId": "M3",
+        "transcript": "Not sure, maybe your manager approves it?",
+        "recalled": false,
+        "confidence": 0.77,
+        "evidence": "no attachment mentioned"
+      }
+    ],
+    "messageRecallRate": 0.333,
+    "behaviorRecalled": false,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_006",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Tom B.",
+    "department": "Drivers",
+    "checkedAt": "2026-09-09T17:37:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T17:37:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "It goes in Spendly now, the app, not email anymore.",
+        "recalled": true,
+        "confidence": 0.88,
+        "evidence": "said \"spendly\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "A week I think.",
+        "recalled": true,
+        "confidence": 0.77,
+        "evidence": "said \"a week\""
+      },
+      {
+        "messageId": "M3",
+        "transcript": "You have to attach the receipt, like a picture of it.",
+        "recalled": true,
+        "confidence": 0.95,
+        "evidence": "said \"picture\""
+      }
+    ],
+    "messageRecallRate": 1.0,
+    "behaviorRecalled": true,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_007",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Aisha M.",
+    "department": "Warehouse",
+    "checkedAt": "2026-09-09T17:44:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T17:44:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "We put it in the app on our phone.",
+        "recalled": true,
+        "confidence": 0.81,
+        "evidence": "said \"the app\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "A week I think.",
+        "recalled": true,
+        "confidence": 0.94,
+        "evidence": "said \"a week\""
+      },
+      {
+        "messageId": "M3",
+        "transcript": "You have to attach the receipt, like a picture of it.",
+        "recalled": true,
+        "confidence": 0.72,
+        "evidence": "said \"picture\""
+      }
+    ],
+    "messageRecallRate": 1.0,
+    "behaviorRecalled": true,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_008",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Kevin L.",
+    "department": "Drivers",
+    "checkedAt": "2026-09-09T17:51:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T17:51:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "We put it in the app on our phone.",
+        "recalled": true,
+        "confidence": 0.72,
+        "evidence": "said \"the app\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "A week I think.",
+        "recalled": true,
+        "confidence": 0.72,
+        "evidence": "said \"a week\""
+      },
+      {
+        "messageId": "M3",
+        "transcript": "You have to attach the receipt, like a picture of it.",
+        "recalled": true,
+        "confidence": 0.77,
+        "evidence": "said \"picture\""
+      }
+    ],
+    "messageRecallRate": 1.0,
+    "behaviorRecalled": true,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_009",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Sofia G.",
+    "department": "Dispatch",
+    "checkedAt": "2026-09-09T17:58:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T17:58:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "It goes in Spendly now, the app, not email anymore.",
+        "recalled": true,
+        "confidence": 0.77,
+        "evidence": "said \"spendly\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "A week I think.",
+        "recalled": true,
+        "confidence": 0.8,
+        "evidence": "said \"a week\""
+      },
+      {
+        "messageId": "M3",
+        "transcript": "Not sure, maybe your manager approves it?",
+        "recalled": false,
+        "confidence": 0.87,
+        "evidence": "no attachment mentioned"
+      }
+    ],
+    "messageRecallRate": 0.667,
+    "behaviorRecalled": false,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_010",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Ray P.",
+    "department": "Warehouse",
+    "checkedAt": "2026-09-09T18:05:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T18:05:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "We put it in the app on our phone.",
+        "recalled": true,
+        "confidence": 0.89,
+        "evidence": "said \"the app\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "Seven days, it's in the chorus.",
+        "recalled": true,
+        "confidence": 0.73,
+        "evidence": "said \"seven days\""
+      },
+      {
+        "messageId": "M3",
+        "transcript": "A photo of the receipt.",
+        "recalled": true,
+        "confidence": 0.76,
+        "evidence": "said \"photo\""
+      }
+    ],
+    "messageRecallRate": 1.0,
+    "behaviorRecalled": true,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  },
+  {
+    "recordId": "fix_011",
+    "bangerId": "acme-expense-it-2026",
+    "employeeAlias": "Nina S.",
+    "department": "Drivers",
+    "checkedAt": "2026-09-09T18:12:00Z",
+    "daysSinceRelease": 14,
+    "consent": {
+      "granted": true,
+      "grantedAt": "2026-09-09T18:12:00Z",
+      "disclosure": "Encore will listen to your spoken answers to three short questions about the song your company released. Your audio is transcribed in your browser and is NOT saved or sent anywhere. Only the text transcript is kept, for 30 days, so your company can see whether the message landed. Your voice is never cloned or reused. You can decline and type your answers instead, and you can withdraw at any time.",
+      "transcriptRetentionDays": 30,
+      "audioRetained": false,
+      "withdrawalInstructions": "Reply WITHDRAW to the Encore link or email the sender; the transcript is deleted within 24 hours."
+    },
+    "answers": [
+      {
+        "messageId": "M1",
+        "transcript": "We put it in the app on our phone.",
+        "recalled": true,
+        "confidence": 0.92,
+        "evidence": "said \"the app\""
+      },
+      {
+        "messageId": "M2",
+        "transcript": "A week I think.",
+        "recalled": true,
+        "confidence": 0.9,
+        "evidence": "said \"a week\""
+      },
+      {
+        "messageId": "M3",
+        "transcript": "You have to attach the receipt, like a picture of it.",
+        "recalled": true,
+        "confidence": 0.92,
+        "evidence": "said \"picture\""
+      }
+    ],
+    "messageRecallRate": 1.0,
+    "behaviorRecalled": true,
+    "scorer": "fixture",
+    "sessionCostUsd": 0,
+    "source": "fixture"
+  }
+]
