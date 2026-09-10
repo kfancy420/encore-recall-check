@@ -89,7 +89,7 @@ export default function BriefPage() {
       />
 
       {phase === "start" && (
-        <section className="card stack" style={{ marginTop: 36 }}>
+        <section className="card stack section-gap">
           <div className="row">
             <label className="field"><span className="label">Client</span><input className="input" value={ctx.client} onChange={(e) => setCtx({ ...ctx, client: e.target.value })} /></label>
             <label className="field" style={{ flex: 2 }}><span className="label">What's coming up</span><input className="input" value={ctx.topic} onChange={(e) => setCtx({ ...ctx, topic: e.target.value })} /></label>
@@ -103,7 +103,7 @@ export default function BriefPage() {
       )}
 
       {phase === "start" && history.length > 0 && (
-        <section className="card card-sand stack" style={{ marginTop: 22 }}>
+        <section className="card card-sand stack section-gap">
           <h2>Brief history</h2>
           <table className="table">
             <thead><tr><th>Client</th><th>Objective</th><th>Captured</th><th></th></tr></thead>
@@ -122,7 +122,7 @@ export default function BriefPage() {
       )}
 
       {phase !== "start" && (
-        <div className="split" style={{ marginTop: 36 }}>
+        <div className="split section-gap">
           <section className="card stack">
             <div className="row spread"><span className="badge badge-violet">{ctx.client}</span><span className="badge">{elapsed}s</span></div>
             <div className="chat">{lines.map((l, i) => <div key={i} className={`bubble bubble-${l.who}`}>{l.text}</div>)}</div>

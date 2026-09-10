@@ -80,7 +80,7 @@ export default function ChoirPage() {
         ]}
       />
 
-      <div className="split" style={{ marginTop: 36 }}>
+      <div className="split section-gap">
         <section className="card stack">
           <div className="row spread"><h2>Add your voice</h2><label className="field" style={{ maxWidth: 260 }}><span className="label">Client</span><input className="input" value={client} onChange={(e) => setClient(e.target.value)} /></label></div>
           <div className="callout callout-violet" style={{ fontSize: 17 }}>{CONSENT_TEXT}</div>

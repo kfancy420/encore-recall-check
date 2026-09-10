@@ -80,7 +80,7 @@ export default function SonicDnaPage() {
         ]}
       />
 
-      <section className="card stack" style={{ marginTop: 36 }}>
+      <section className="card stack section-gap">
         <div className="row spread">
           <label className="field" style={{ maxWidth: 360 }}><span className="label">Client</span><input className="input" value={client} onChange={(e) => setClient(e.target.value)} /></label>
           <div className="row">
@@ -117,7 +117,7 @@ export default function SonicDnaPage() {
         </div>
       </section>
 
-      <section className="card stack" style={{ marginTop: 22 }}>
+      <section className="card stack section-gap">
         <h2>What gets saved</h2>
         <p style={{ margin: 0, color: "var(--muted)", fontSize: 17 }}>A sonic signature record: which workplace sound plays which drum, with duration, level, provenance and the song it was rendered into — reusable on every future banger for this client.</p>
         <pre className="json">{JSON.stringify({ client, song: TRACK_TITLE, samples: SLOTS.filter((s) => clips[s.role]).map((s) => ({ role: s.role, label: labels[s.role], durationMs: clips[s.role]!.durationMs, peak: clips[s.role]!.peak })) }, null, 2)}</pre>

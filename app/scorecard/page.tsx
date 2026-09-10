@@ -31,7 +31,7 @@ export default function ScorecardPage() {
           { value: `${card.nextBangerSeed.length}`, label: "message(s) to remix" },
         ]}
       />
-      <p className="row" style={{ marginTop: 16 }}><span className="badge badge-live">{card.liveSessions} live session{card.liveSessions === 1 ? "" : "s"} on this machine</span><span className="badge badge-fixture">{card.employeesChecked - card.liveSessions} synthetic employees</span></p>
+      <p className="row badge-row"><span className="badge badge-live">{card.liveSessions} live session{card.liveSessions === 1 ? "" : "s"} on this machine</span><span className="badge badge-fixture">{card.employeesChecked - card.liveSessions} synthetic employees</span></p>
 
 
       <div className="split" style={{ marginTop: 20 }}>

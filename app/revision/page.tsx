@@ -91,7 +91,7 @@ export default function RevisionPage() {
         ]}
       />
 
-      <section className="card stack" style={{ marginTop: 36 }}>
+      <section className="card stack section-gap">
         <div className="row spread">
           <div><div className="label">Now reviewing</div><div style={{ fontSize: 26, fontWeight: 800 }}>{TRACK_TITLE}</div></div>
           <div className="row">
@@ -125,7 +125,7 @@ export default function RevisionPage() {
         {pending.map((p) => <div key={p} className="status"><span className="pulse" />classifying “{p}”…</div>)}
       </section>
 
-      <div className="split" style={{ marginTop: 22 }}>
+      <div className="split section-gap">
         <section className="card stack">
           <h2>Production notes · {notes.length}</h2>
           {notes.length === 0 && <p className="big" style={{ color: "var(--muted)", margin: 0 }}>Press play and say what you think. Every remark lands here, pinned to the second you said it.</p>}

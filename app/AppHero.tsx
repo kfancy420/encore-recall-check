@@ -14,10 +14,12 @@ export function AppHero({ eyebrow, title, what, impact, outcome }: {
     <section className="hero">
       {outcome && (
         <div className="outcome">
-          <span className={`outcome-kind ${outcome.kind === "Revenue" ? "red" : "blue"}`}>{outcome.kind}</span>
-          <span className="outcome-friction">{outcome.friction}</span>
-          <span className="outcome-claim">{outcome.claim}</span>
-          <span className="outcome-because">{outcome.because}</span>
+          <div className="outcome-head">
+            <span className={`outcome-kind ${outcome.kind === "Revenue" ? "red" : "blue"}`}>{outcome.kind}</span>
+            <span className="outcome-friction">{outcome.friction}</span>
+          </div>
+          <div className="outcome-claim">{outcome.claim}</div>
+          <div className="outcome-because">{outcome.because}</div>
         </div>
       )}
       <div>
