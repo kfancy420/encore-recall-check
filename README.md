@@ -1,8 +1,10 @@
-# Encore — the 60-second voice recall check
+# Banger Loop — Encore, plus Banger Brief and Revision Room
 
 ## 1. What this is
 
-**Encore** is a voice agent that calls the room two weeks after a banger ships: it asks each employee three spoken questions about the message the song carried, scores the answers against the original song brief, and rolls everyone up into a **Recall Scorecard** the client's leadership can see. It gives Business Bangerz proof that the message landed — and tells them exactly what to remix when it didn't.
+**Encore** is the primary concept: a voice agent that calls the room two weeks after a banger ships, asks each employee three spoken questions about the message the song carried, scores the answers against the original song brief, and rolls everyone up into a **Recall Scorecard** the client's leadership can see. It gives Business Bangerz proof that the message landed — and tells them exactly what to remix when it didn't.
+
+The repository is a small suite around the Banger Loop, sharing one audio layer and one local model: **Banger Brief** (`/brief`, LISTEN — F1/F6, cost: the intake interview as a conversation that emits a structured brief) and **Revision Room** (`/revision`, CREATE — F2, cost: talk over the track, get timestamped, prioritized production notes). Encore (`/encore` → `/scorecard`, LISTEN AGAIN) is the one scored against the rubric; the other two exist because the same brief object flows through all three, which is what makes F6 (reusable memory) real rather than claimed.
 
 ## 2. The outcome it targets
 
@@ -29,6 +31,9 @@ Small-team constraint: the operator does nothing per employee. They send one lin
 | Event log for outcome measurement | **Real** (`data/events.jsonl`), but nobody reads it yet |
 | Song brief for the demo banger | **Fixture** (`lib/songBrief.ts`), fictional client "Acme Logistics" |
 | Sending the link to employees, Supabase storage, the actual song | **Not built** — see section 7 |
+| **Banger Brief**: 5-question voice/typed interview, vague-answer follow-up, live brief panel, local-model refinement into OR-6 fields incl. pronunciations (OR-5), saved JSON | **Real** (`lib/bangerBrief.ts`, `app/brief`) |
+| **Revision Room**: 60-second synthetic track generated with the Web Audio API, continuous listening while it plays, remarks timestamped to the playhead and mapped to song sections, rule-based + local-model classification into production notes, saved JSON | **Real** (`lib/revisionNotes.ts`, `lib/demoTrack.ts`, `app/revision`); the "example session" button loads fixtures |
+| Tap-to-answer choices in Encore (in case the microphone fails) | **Real** |
 
 Everything in the demo that is a fixture is labeled as such on screen (● marks the live session on the scorecard).
 
@@ -42,6 +47,11 @@ Everything in the demo that is a fixture is labeled as such on screen (● marks
 6. **One structured record per employee.** The primary workflow turns the answers into a `RecallRecord`: per-message recall with evidence, message recall rate, whether the *full behavior* was recalled (not just the hook), the consent, the scorer used, and the session cost. (`lib/runRecallCheck.ts`, `lib/recallRecord.ts`)
 7. **The scorecard aggregates everyone.** Recall by required message, by department, the share who can state the full behavior, cost per check, and a **next banger seed**: any message under 60% recall, with a suggestion to make it the hook of the remix. (`lib/aggregateScorecard.ts`, `app/scorecard/page.tsx`)
 8. **Measurement events** are logged at each step so the revenue outcome can be proven later: invited → started → scored → completed → scorecard viewed → repeat purchase attributed. (`lib/recallEventLog.ts`)
+
+### The other two apps, briefly
+
+- **Banger Brief** asks: what's coming up → what people get wrong and what they should do differently on Monday (follow-up: one real example) → who it's for → must-say phrases, banned words, names and acronyms said the way the team says them → tone and references. Each answer lands in the brief immediately (`assembleBriefFromAnswers`); at the end the local model tidies it (`refineBriefWithLocalModel`). Output: `data/briefs/*.json`.
+- **Revision Room** plays a draft and listens continuously (`listenContinuous`). Each final phrase is stamped with the playhead position, mapped to a section (`sectionAt`), and classified (`classifyFeedback`) into `{section, element, verdict, priority, action}`. The client can also click the timeline and type. Output: `data/revisions/*.json`.
 
 ## 5. Setup
 
@@ -59,8 +69,9 @@ npm run dev
 
 ```bash
 npm run dev
-# open http://localhost:3000/encore  → consent → answer three questions by voice → recall record
+# open http://localhost:3000/encore  → consent → answer three questions by voice (or tap) → recall record
 # open http://localhost:3000/scorecard → the aggregated Recall Scorecard
+# also: http://localhost:3000/brief and http://localhost:3000/revision
 ```
 
 Offline / no-microphone demonstration of the same workflow (OR-13), with the dev server running:
@@ -78,7 +89,8 @@ Deliberately cut, in order of how much I wanted to build it:
 - **Reading the event log.** Events are written, not charted. Two more hours: a per-banger funnel and a "scorecard viewed → repeat order" attribution view.
 - **A realtime speech-to-speech agent.** The assembled pipeline (browser STT → scorer → browser TTS) was the only way to hit $0 per session, which matters for a cost-free proof product. Interruption handling is limited to silence retry.
 - **Brief authoring.** The brief is a fixture. In production it is the output of the intake step (Banger Brief) — Encore is the other end of the same loop.
-- Multi-client, auth, music generation, any visual polish.
+- Multi-client, auth, music generation.
+- Wiring Banger Brief's output into Encore's questions automatically. Today Encore reads a fixture brief with the same shape; the join is a file read.
 
 ## 8. AI-use disclosure
 
@@ -88,4 +100,4 @@ Built in a 90-minute window with Claude (Anthropic) doing most of the typing: sc
 
 - Next.js (MIT), React (MIT), Ollama (MIT), Qwen2.5 1.5B (Apache-2.0)
 - Speech recognition and synthesis: the browser's Web Speech API (Chrome)
-- No audio files are included. No recordings of any person are stored. All employee names, the client, and the banger are fictional; no Business Bangerz client material was used.
+- No audio files are included; the Revision Room draft is synthesized at runtime with the Web Audio API. No recordings of any person are stored. All employee names, the client, and the banger are fictional; no Business Bangerz client material was used.
