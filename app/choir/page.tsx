@@ -69,6 +69,7 @@ export default function ChoirPage() {
   return (
     <main className="page">
       <AppHero
+        outcome={{ kind: "Revenue", friction: "F4 · participation logistics", claim: "An upsell after the brief: the client's own people on the chorus, captured in the room, with consent that holds up.", because: "Employee voices make the banger ownable and shareable inside the company — and the built consent flow is what lets it be sold at all." }}
         eyebrow="Create · fixes F4 participation logistics"
         title="Company Choir"
         what={`Pass the mic around the room. Each person says the hook once — "${HOOK}" — and the banger plays back with all of them on the chorus. Their voices, as recorded, with consent built in.`}

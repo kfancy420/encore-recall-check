@@ -69,6 +69,7 @@ export default function SonicDnaPage() {
   return (
     <main className="page">
       <AppHero
+        outcome={{ kind: "Revenue", friction: "F4 · participation logistics", claim: "A premium “signature” tier: the client's own workplace in the drums, captured in thirty seconds with no studio.", because: "A song only that company could own justifies a higher price per project and cannot be produced by a generic music vendor." }}
         eyebrow="Create · fixes F4 participation logistics"
         title="Sonic DNA"
         what="The sounds of the client's workplace become the drum kit of their banger. Three hits recorded in the room, and the same song plays back with a signature no other company could have."

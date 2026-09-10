@@ -77,6 +77,7 @@ export default function BriefPage() {
   return (
     <main className="page">
       <AppHero
+        outcome={{ kind: "Cost", friction: "F1 · intake quality", claim: "Prevents the most expensive mistake in the pipeline: a banger written from a bad brief.", because: "A rewrite costs more than the whole intake. Sixty seconds of the right questions, captured in a structured brief, removes it." }}
         eyebrow="Step 1 · Listen · fixes F1 intake quality + F6 reusable memory"
         title="Banger Brief"
         what="A voice interview instead of an intake form. It digs out the behavior change behind the request, the exact words to use and avoid, and how to say the company's own jargon — then hands the writer a structured brief."

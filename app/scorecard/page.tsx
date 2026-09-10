@@ -21,6 +21,7 @@ export default function ScorecardPage() {
   return (
     <main className="page">
       <AppHero
+        outcome={{ kind: "Revenue", friction: "F5 · no proof of impact", claim: "This page is the product: proof the message landed, and the evidence-backed remix to sell next.", because: "Weak messages become the seed for the next banger, so every delivery creates the next order instead of ending the relationship." }}
         eyebrow={`Recall Scorecard · ${card.client}`}
         title={`Did "${card.bangerTitle}" land?`}
         what={`${card.employeesChecked} employees checked by Encore, 14 days after release. This is the page Business Bangerz sells: proof, per message and per department, plus the seed for the next banger.`}

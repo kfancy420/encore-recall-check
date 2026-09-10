@@ -126,6 +126,7 @@ export default function EncorePage() {
   return (
     <main className="page">
       <AppHero
+        outcome={{ kind: "Revenue", friction: "F5 · no proof of impact", claim: "A billable “Proof of Banger” check after every song — and evidence that defends premium pricing and wins the repeat order.", because: "Today repeat purchase is a matter of taste. A recall scorecard turns it into a result, sold as a line item, at $0 per check to run, with no extra staff." }}
         eyebrow="Step 3 · Listen again · fixes F5 no proof of impact"
         title="Encore"
         what={`Two weeks after "${brief.bangerTitle}" shipped to ${brief.client}, every employee gets a 60-second voice check. It proves the message landed — and tells Business Bangerz what to remix when it didn't.`}

@@ -80,6 +80,7 @@ export default function RevisionPage() {
   return (
     <main className="page">
       <AppHero
+        outcome={{ kind: "Cost", friction: "F2 · revision friction", claim: "Fewer revision rounds per banger, and no hours translating email feedback into production notes.", because: "Every remark arrives timestamped, tagged and prioritized, so the producer executes instead of interpreting. Two rounds saved on a project is a day of the founder's time." }}
         eyebrow="Step 2 · Create · fixes F2 revision friction"
         title="Revision Room"
         what={`The client presses play and talks over the draft. "Verse two feels corny" becomes a note pinned to the second it was said, tagged lyrics, marked change, with an action the producer can execute.`}
