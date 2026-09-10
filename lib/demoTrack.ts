@@ -1,48 +1,89 @@
 /**
- * "Expense It, Don't Stress It" — Draft 2. A 60-second draft synthesized in the browser with
- * the Web Audio API: drums, bass, a chord pad in the choruses, and a lead line standing in
- * for the vocal. Original by construction — no copyrighted recordings anywhere in the suite.
- * Sections change texture so remarks like "the chorus is louder" or "the lead is buried" land.
+ * The band. Performs "Expense It, Don't Stress It" in the browser with the Web Audio API:
+ * drums, bass, chord pad in the choruses, a lead line, and the lyric vocal delivered by the
+ * speech engine, timed to the bars. Original by construction — no recordings of anyone,
+ * no copyrighted audio.
+ *
+ * The performance is re-renderable: Sonic DNA swaps the drum hits for sounds recorded at the
+ * client's workplace; Company Choir drops consented employee voices onto the chorus tags.
  */
+import { BAR, BEAT, SONG_SECONDS, SONG_SECTIONS, ALL_LINES, sectionKindAt, type LyricLine } from "./bangerSong";
+import { speak, stopSpeaking } from "./browserSpeech";
+
+export const TRACK_SECONDS = SONG_SECONDS;
 export const TRACK_TITLE = "Expense It, Don't Stress It — Draft 2";
-import { DEMO_SECTIONS } from "./revisionNotes";
 
-export const TRACK_SECONDS = 60;
-const BPM = 100;
+export type DrumSamples = { kick?: AudioBuffer; snare?: AudioBuffer; hat?: AudioBuffer };
+export type Cameo = { buffer: AudioBuffer; at: number; label: string };
+export type PerformanceOptions = {
+  vocal?: boolean;
+  drumSamples?: DrumSamples;
+  cameos?: Cameo[];
+  onLine?: (line: LyricLine) => void;
+  onEnd?: () => void;
+  /** Start from this many seconds in (skips what came before). */
+  from?: number;
+};
 
-export function startDemoTrack(ctx: AudioContext, onEnd: () => void): { stop: () => void; startedAt: number } {
+export function performBanger(ctx: AudioContext, opts: PerformanceOptions = {}): { stop: () => void; startedAt: number; offset: number } {
   const master = ctx.createGain();
-  master.gain.value = 0.6;
+  master.gain.value = 0.55;
   master.connect(ctx.destination);
-  const t0 = ctx.currentTime + 0.05;
-  const beat = 60 / BPM;
+  const offset = opts.from ?? 0;
+  const t0 = ctx.currentTime + 0.08 - offset; // song-time 0 in context time
   const chorusRoot = [110, 130.81, 164.81, 146.83]; // A C E D
   const verseRoot = [110, 110, 98, 98];
+  const timers: ReturnType<typeof setTimeout>[] = [];
 
-  const isChorus = (t: number) => DEMO_SECTIONS.some((s) => /Chorus/.test(s.name) && t >= s.start && t < s.end);
-  const isIntro = (t: number) => t < 8;
-
-  for (let i = 0; i * beat < TRACK_SECONDS; i++) {
-    const t = t0 + i * beat;
-    const rel = i * beat;
+  for (let i = 0; i * BEAT < SONG_SECONDS; i++) {
+    const rel = i * BEAT;
+    if (rel < offset - 0.01) continue;
+    const t = t0 + rel;
+    const kind = sectionKindAt(rel);
     const bar = Math.floor(i / 4);
-    kick(ctx, master, t);
-    if (!isIntro(rel) && i % 2 === 1) snare(ctx, master, t, isChorus(rel) ? 0.5 : 0.28);
-    if (isChorus(rel)) { hat(ctx, master, t); hat(ctx, master, t + beat / 2); }
-    if (!isIntro(rel)) {
-      const roots = isChorus(rel) ? chorusRoot : verseRoot;
-      bass(ctx, master, t, roots[bar % 4], beat * 0.9);
-      if (isChorus(rel) && i % 4 === 0) pad(ctx, master, t, roots[bar % 4] * 2, beat * 4);
-      // Lead line (vocal stand-in): a simple hook in the chorus, a sparser phrase in the verses.
-      const hook = isChorus(rel) ? [4, 4, 7, 9, 7, 4, 2, 0] : [0, -1, 0, -1, 2, -1, 0, -1];
+    const big = kind === "chorus" || kind === "bridge";
+    hit(ctx, master, t, opts.drumSamples?.kick, () => kick(ctx, master, t), 0.9);
+    if (kind !== "intro" && i % 2 === 1) hit(ctx, master, t, opts.drumSamples?.snare, () => snare(ctx, master, t, big ? 0.5 : 0.3), 0.7);
+    if (big) { hit(ctx, master, t, opts.drumSamples?.hat, () => hat(ctx, master, t), 0.25); hit(ctx, master, t + BEAT / 2, opts.drumSamples?.hat, () => hat(ctx, master, t + BEAT / 2), 0.2); }
+    if (kind !== "intro") {
+      const roots = big ? chorusRoot : verseRoot;
+      bass(ctx, master, t, roots[bar % 4], BEAT * 0.9);
+      if (big && i % 4 === 0) pad(ctx, master, t, roots[bar % 4] * 2, BAR);
+      const hook = big ? [4, 4, 7, 9, 7, 4, 2, 0] : [0, -1, 0, -1, 2, -1, 0, -1];
       const step = hook[i % 8];
-      if (step >= 0) lead(ctx, master, t, roots[bar % 4] * 4 * Math.pow(2, step / 12), beat * (isChorus(rel) ? 0.9 : 0.5), isChorus(rel) ? 0.16 : 0.1);
+      if (step >= 0 && !(opts.vocal !== false && kind !== "outro")) lead(ctx, master, t, roots[bar % 4] * 4 * Math.pow(2, step / 12), BEAT * (big ? 0.9 : 0.5), big ? 0.16 : 0.1);
     }
   }
-  master.gain.setValueAtTime(0.6, t0 + 56);
-  master.gain.linearRampToValueAtTime(0.0001, t0 + TRACK_SECONDS);
-  const timer = setTimeout(onEnd, TRACK_SECONDS * 1000 + 100);
-  return { startedAt: t0, stop: () => { clearTimeout(timer); master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setTargetAtTime(0, ctx.currentTime, 0.05); setTimeout(() => master.disconnect(), 300); } };
+
+  // Vocal: each lyric line is spoken on its bar. Stagger a little ahead of the beat so the words land on the downbeat.
+  if (opts.vocal !== false) {
+    for (const line of ALL_LINES) {
+      if (line.at < offset - 0.01) continue;
+      timers.push(setTimeout(() => { opts.onLine?.(line); speak(line.text, 1.15); }, Math.max(0, (line.at - offset) * 1000 - 120)));
+    }
+  }
+
+  // Cameos: consented employee voices dropped onto the timeline (Company Choir).
+  for (const c of opts.cameos ?? []) {
+    if (c.at < offset) continue;
+    const s = ctx.createBufferSource(); s.buffer = c.buffer; const g = ctx.createGain(); g.gain.value = 1.0;
+    s.connect(g).connect(master); s.start(t0 + c.at);
+  }
+
+  master.gain.setValueAtTime(0.55, t0 + SONG_SECONDS - 3);
+  master.gain.linearRampToValueAtTime(0.0001, t0 + SONG_SECONDS);
+  timers.push(setTimeout(() => opts.onEnd?.(), (SONG_SECONDS - offset) * 1000 + 100));
+  return {
+    startedAt: t0, offset,
+    stop: () => { timers.forEach(clearTimeout); stopSpeaking(); master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setTargetAtTime(0, ctx.currentTime, 0.05); setTimeout(() => master.disconnect(), 300); },
+  };
+}
+
+/** Play a recorded sample if one was provided, otherwise the synthesized hit. */
+function hit(ctx: AudioContext, out: AudioNode, t: number, sample: AudioBuffer | undefined, synth: () => void, level: number) {
+  if (!sample) return synth();
+  const s = ctx.createBufferSource(); s.buffer = sample; const g = ctx.createGain(); g.gain.value = level;
+  s.connect(g).connect(out); s.start(t);
 }
 
 function kick(ctx: AudioContext, out: AudioNode, t: number) {
@@ -51,17 +92,18 @@ function kick(ctx: AudioContext, out: AudioNode, t: number) {
   g.gain.setValueAtTime(0.9, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
   o.connect(g).connect(out); o.start(t); o.stop(t + 0.32);
 }
+function noise(ctx: AudioContext, seconds: number, decay: number) {
+  const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * seconds), ctx.sampleRate); const d = buf.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, decay);
+  return buf;
+}
 function snare(ctx: AudioContext, out: AudioNode, t: number, level: number) {
-  const buf = ctx.createBuffer(1, ctx.sampleRate * 0.2, ctx.sampleRate); const d = buf.getChannelData(0);
-  for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2);
-  const s = ctx.createBufferSource(); s.buffer = buf; const g = ctx.createGain(); g.gain.value = level;
+  const s = ctx.createBufferSource(); s.buffer = noise(ctx, 0.2, 2); const g = ctx.createGain(); g.gain.value = level;
   const f = ctx.createBiquadFilter(); f.type = "highpass"; f.frequency.value = 1800;
   s.connect(f).connect(g).connect(out); s.start(t);
 }
 function hat(ctx: AudioContext, out: AudioNode, t: number) {
-  const buf = ctx.createBuffer(1, ctx.sampleRate * 0.05, ctx.sampleRate); const d = buf.getChannelData(0);
-  for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
-  const s = ctx.createBufferSource(); s.buffer = buf; const g = ctx.createGain(); g.gain.value = 0.12;
+  const s = ctx.createBufferSource(); s.buffer = noise(ctx, 0.05, 1); const g = ctx.createGain(); g.gain.value = 0.12;
   const f = ctx.createBiquadFilter(); f.type = "highpass"; f.frequency.value = 7000;
   s.connect(f).connect(g).connect(out); s.start(t);
 }
@@ -78,10 +120,11 @@ function pad(ctx: AudioContext, out: AudioNode, t: number, freq: number, dur: nu
     o.connect(g).connect(out); o.start(t); o.stop(t + dur);
   }
 }
-
 function lead(ctx: AudioContext, out: AudioNode, t: number, freq: number, dur: number, level: number) {
   const o = ctx.createOscillator(); o.type = "square"; o.frequency.value = freq;
   const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 2200;
   const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(level, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
   o.connect(f).connect(g).connect(out); o.start(t); o.stop(t + dur + 0.05);
 }
+
+export { SONG_SECTIONS };

@@ -1,0 +1,49 @@
+{
+  "briefId": "brief_mtuwda2b",
+  "client": "Acme Logistics",
+  "createdAt": "2026-09-10T02:17:30.419Z",
+  "refinedBy": "ollama-local",
+  "answers": [
+    {
+      "id": "behavior",
+      "transcript": "they forgt",
+      "followUpTranscript": "they just dont do it"
+    },
+    {
+      "id": "language",
+      "transcript": "no",
+      "followUpTranscript": "no"
+    },
+    {
+      "id": "tone",
+      "transcript": "upbeat",
+      "followUpTranscript": "fun and loud"
+    }
+  ],
+  "brief": {
+    "objective": "Encourage warehouse staff and drivers to adopt a new expense process (Spendly) on their phones, improving efficiency and reducing errors.",
+    "behaviorChange": "People should start using the new expense process on their phones on Monday.",
+    "requiredMessages": [
+      "Start using Spendly on your phones this week.",
+      "Make it a habit to check your expense reports daily."
+    ],
+    "stories": [],
+    "audience": "340 warehouse staff and drivers",
+    "tone": "Upbeat and fun",
+    "references": [
+      "The Script",
+      "The Script"
+    ],
+    "mustSay": [
+      "no"
+    ],
+    "banned": [
+      "forget",
+      "don't"
+    ],
+    "pronunciations": {
+      "Spendly": "Spay-dee-lee",
+      "acme": "uh-SEE-mee"
+    }
+  }
+}

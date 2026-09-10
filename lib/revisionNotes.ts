@@ -11,19 +11,9 @@ import { askLocalModelJson } from "./localModel";
  * keep/change verdict and an action the producer can execute.
  */
 
-export type SongSection = { name: string; start: number; end: number };
-
-/** Section map for the demo track (a 60-second synthetic bed generated in the browser). */
-export const DEMO_SECTIONS: SongSection[] = [
-  { name: "Intro", start: 0, end: 8 },
-  { name: "Verse 1", start: 8, end: 20 },
-  { name: "Chorus", start: 20, end: 32 },
-  { name: "Verse 2", start: 32, end: 44 },
-  { name: "Chorus 2", start: 44, end: 56 },
-  { name: "Outro", start: 56, end: 60 },
-];
-
-export const sectionAt = (t: number) => DEMO_SECTIONS.find((s) => t >= s.start && t < s.end)?.name ?? "Outro";
+import { SONG_SECTIONS, sectionAt } from "./bangerSong";
+export const DEMO_SECTIONS = SONG_SECTIONS;
+export { sectionAt };
 
 export type FeedbackElement = "vocals" | "lyrics" | "drums" | "bass" | "melody" | "mix" | "tempo" | "energy" | "overall";
 export type ProductionNote = {
@@ -79,8 +69,8 @@ Classify it for the music producer. Return JSON: {"element": one of vocals|lyric
 /** A pre-baked session for the demo (OR-13). */
 export const EXAMPLE_NOTES: ProductionNote[] = [
   { noteId: "ex1", atSeconds: 5, section: "Intro", transcript: "Love the intro, keep the drums exactly like this", element: "drums", verdict: "keep", priority: "low", action: "Keep the intro drums as is.", classifiedBy: "rules" },
-  { noteId: "ex2", atSeconds: 14, section: "Verse 1", transcript: "The vocals feel buried under the bass here", element: "mix", verdict: "change", priority: "medium", action: "Bring the lead vocal up and carve the bass in Verse 1.", classifiedBy: "rules" },
-  { noteId: "ex3", atSeconds: 26, section: "Chorus", transcript: "This chorus is the banger, that hook is perfect", element: "melody", verdict: "keep", priority: "low", action: "Keep the chorus hook untouched.", classifiedBy: "rules" },
-  { noteId: "ex4", atSeconds: 37, section: "Verse 2", transcript: "Verse two is corny, the Spendly line sounds like an ad", element: "lyrics", verdict: "change", priority: "high", action: "Rewrite the Verse 2 Spendly line so it lands as a story, not a slogan.", classifiedBy: "rules" },
-  { noteId: "ex5", atSeconds: 58, section: "Outro", transcript: "Could we end on the chorus instead of fading out?", element: "overall", verdict: "question", priority: "medium", action: "Try an alternate ending that stops on the final chorus.", classifiedBy: "rules" },
+  { noteId: "ex2", atSeconds: 18, section: "Verse 1", transcript: "The vocal feels buried under the bass here", element: "mix", verdict: "change", priority: "medium", action: "Bring the lead vocal up and carve the bass in Verse 1.", classifiedBy: "rules" },
+  { noteId: "ex3", atSeconds: 35, section: "Chorus", transcript: "This chorus is the banger, that hook is perfect", element: "melody", verdict: "keep", priority: "low", action: "Keep the chorus hook untouched.", classifiedBy: "rules" },
+  { noteId: "ex4", atSeconds: 55, section: "Verse 2", transcript: "Verse two is corny, the Dana line sounds like an ad", element: "lyrics", verdict: "change", priority: "high", action: "Rewrite the Verse 2 Dana line so it lands as a story, not a slogan.", classifiedBy: "rules" },
+  { noteId: "ex5", atSeconds: 117, section: "Outro", transcript: "Could we end on the chorus instead of fading out?", element: "overall", verdict: "question", priority: "medium", action: "Try an alternate ending that stops on the final chorus.", classifiedBy: "rules" },
 ];
