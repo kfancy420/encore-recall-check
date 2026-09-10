@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import "./globals.css";
 import { BangerPlayer } from "./BangerPlayer";
@@ -14,15 +15,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <header className="nav">
           <div className="nav-inner">
-            <a href="/" className="brand"><span className="brand-dot" />Banger Loop</a>
+            <Link href="/" className="brand"><span className="brand-dot" />Banger Loop</Link>
             <BangerPlayer />
             <nav className="nav-links">
-              <a href="/encore">Encore</a>
-              <a href="/scorecard">Scorecard</a>
-              <a href="/revision">Revision Room</a>
-              <a href="/sonic-dna">Sonic DNA</a>
-              <a href="/choir">Company Choir</a>
-              <a href="/brief">Banger Brief</a>
+              <Link href="/encore">Encore</Link>
+              <Link href="/scorecard">Scorecard</Link>
+              <Link href="/revision">Revision Room</Link>
+              <Link href="/sonic-dna">Sonic DNA</Link>
+              <Link href="/choir">Company Choir</Link>
+              <Link href="/brief">Banger Brief</Link>
             </nav>
           </div>
         </header>

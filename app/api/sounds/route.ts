@@ -9,6 +9,8 @@ import path from "node:path";
  */
 export async function POST(req: Request) {
   const body = (await req.json()) as { kind: "sonic-signature" | "company-choir"; client: string; record: Record<string, unknown>; clips: { name: string; wavBase64: string }[] };
+  if (!["sonic-signature", "company-choir"].includes(body.kind)) return NextResponse.json({ error: "unknown kind" }, { status: 400 });
+  if ((body.clips ?? []).some((c) => c.wavBase64.length > 8_000_000)) return NextResponse.json({ error: "clip too large" }, { status: 413 });
   const id = `${body.kind}_${Date.now().toString(36)}`;
   const dir = path.join(process.cwd(), "data", "sounds", id);
   mkdirSync(dir, { recursive: true });

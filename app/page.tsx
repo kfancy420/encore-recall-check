@@ -1,3 +1,4 @@
+import Link from "next/link";
 /** The hub. Big portals into each app, in demo order. Encore is the primary concept. */
 const portals = [
   { href: "/encore", step: "Listen again", name: "Encore", line: "Prove the banger landed.", impact: "60-second voice check, two weeks after release. New billable line item.", tone: "red", big: true },
@@ -20,13 +21,13 @@ export default function Home() {
       </p>
       <div className="hub">
         {portals.map((p) => (
-          <a key={p.href} href={p.href} className={`portal portal-${p.tone} ${p.big ? "portal-big" : ""}`}>
+          <Link key={p.href} href={p.href} className={`portal portal-${p.tone} ${p.big ? "portal-big" : ""}`}>
             <span className="portal-step">{p.step}</span>
             <span className="portal-name">{p.name}</span>
             <span className="portal-line">{p.line}</span>
             <span className="portal-impact">{p.impact}</span>
             <span className="portal-go">Open →</span>
-          </a>
+          </Link>
         ))}
       </div>
     </main>

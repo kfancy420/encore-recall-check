@@ -6,7 +6,7 @@ import type { RecallAnswer } from "./recallRecord";
  * from the song brief was (or was not) remembered.
  *
  * Two scorers, no paid APIs anywhere:
- *  1. scoreRecallWithLocalModel — a local Ollama model (qwen2.5:1.5b) reads the
+ *  1. scoreRecallWithLocalModel — the local Ollama model (see localModel.ts) reads the
  *     answer against the brief's message and judges recall semantically.
  *  2. scoreRecallByKeyPhrase — deterministic phrase matcher against the brief's
  *     keyPhrases. Always available; used as the fallback when Ollama is not running.
@@ -14,8 +14,7 @@ import type { RecallAnswer } from "./recallRecord";
  * Cost per session is therefore $0.00 — see estimateSessionCost().
  */
 
-const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL ?? "qwen2.5:1.5b";
+import { askLocalModelJson, LOCAL_MODEL_NAME } from "./localModel";
 
 /** Vague or incomplete answers trigger one follow-up question from the agent (OR-3). */
 export function isAnswerVague(transcript: string): boolean {
@@ -51,30 +50,15 @@ The employee was asked: "${message.question}"
 The employee said: "${transcript}"
 Did the employee's answer show they remember the message? Answer with JSON only:
 {"recalled": true or false, "confidence": 0.0 to 1.0, "evidence": "<the words from the employee answer that show recall, or why it does not>"}`;
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 20000);
-    const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ model: OLLAMA_MODEL, prompt, stream: false, format: "json", options: { temperature: 0 } }),
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
-    if (!res.ok) return null;
-    const data = (await res.json()) as { response?: string };
-    const parsed = JSON.parse(data.response ?? "{}") as { recalled?: boolean; confidence?: number; evidence?: string };
-    if (typeof parsed.recalled !== "boolean") return null;
-    return {
-      messageId: message.id,
-      transcript,
-      recalled: parsed.recalled,
-      confidence: Math.max(0, Math.min(1, Number(parsed.confidence ?? 0.5))),
-      evidence: String(parsed.evidence ?? "").slice(0, 200),
-    };
-  } catch {
-    return null; // Ollama not running or too slow — fall back to the phrase matcher
-  }
+  const parsed = await askLocalModelJson<{ recalled?: boolean; confidence?: number; evidence?: string }>(prompt);
+  if (!parsed || typeof parsed.recalled !== "boolean") return null; // Ollama off or unusable → phrase matcher
+  return {
+    messageId: message.id,
+    transcript,
+    recalled: parsed.recalled,
+    confidence: Math.max(0, Math.min(1, Number(parsed.confidence ?? 0.5))),
+    evidence: String(parsed.evidence ?? "").slice(0, 200),
+  };
 }
 
 /** Score one answer: local model first, deterministic phrase matcher as fallback. */

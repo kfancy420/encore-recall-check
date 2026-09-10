@@ -122,5 +122,3 @@ details summary { cursor: pointer; color: var(--muted); font-weight: 700; }
 
 /* Global player in the nav */
 .player { display: flex; align-items: center; gap: 8px; }
-.player-lyric { font-weight: 800; font-size: 16px; color: var(--accent); max-width: 380px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-@media (max-width: 900px) { .player-lyric { display: none; } }

@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { notFound } from "next/navigation";
 import type { BriefDraft, BriefAnswer } from "@/lib/bangerBrief";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +12,8 @@ type SavedBrief = { briefId: string; client: string; topic?: string; audience?: 
 export default async function BriefDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const safe = id.replace(/[^a-z0-9_]/gi, "");
-  const rec = JSON.parse(readFileSync(path.join(process.cwd(), "data", "briefs", `${safe}.json`), "utf8")) as SavedBrief;
+  let rec: SavedBrief;
+  try { rec = JSON.parse(readFileSync(path.join(process.cwd(), "data", "briefs", `${safe}.json`), "utf8")) as SavedBrief; } catch { notFound(); }
   const b = rec.brief;
   const list = (a: string[]) => (a.length ? <ul style={{ margin: 0, paddingLeft: 20 }}>{a.map((x, i) => <li key={i}>{x}</li>)}</ul> : "—");
   const plain = [
@@ -31,7 +34,7 @@ export default async function BriefDetail({ params }: { params: Promise<{ id: st
     <main className="page">
       <div className="eyebrow">Song brief · {rec.client}</div>
       <h1 style={{ fontSize: 44 }}>{b.objective || rec.topic || "Brief"}</h1>
-      <p className="lede">Captured {new Date(rec.createdAt).toLocaleString()} · refined by {rec.refinedBy} · <a href="/brief" style={{ color: "var(--blue)", fontWeight: 700 }}>← all briefs</a></p>
+      <p className="lede">Captured {new Date(rec.createdAt).toLocaleString()} · refined by {rec.refinedBy} · <Link href="/brief" style={{ color: "var(--blue)", fontWeight: 700 }}>← all briefs</Link></p>
       <div className="split" style={{ marginTop: 32 }}>
         <section className="card stack">
           <dl className="kv">

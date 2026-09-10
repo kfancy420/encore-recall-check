@@ -11,9 +11,7 @@ import { askLocalModelJson } from "./localModel";
  * keep/change verdict and an action the producer can execute.
  */
 
-import { SONG_SECTIONS, sectionAt } from "./bangerSong";
-export const DEMO_SECTIONS = SONG_SECTIONS;
-export { sectionAt };
+import { sectionAt } from "./bangerSong";
 
 export type FeedbackElement = "vocals" | "lyrics" | "drums" | "bass" | "melody" | "mix" | "tempo" | "energy" | "overall";
 export type ProductionNote = {

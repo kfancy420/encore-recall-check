@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useEffect, useRef, useState } from "react";
 import { EXPENSE_POLICY_BRIEF } from "@/lib/songBrief";
 import { recordVoiceConsent, VOICE_CONSENT_DISCLOSURE } from "@/lib/consent";
@@ -180,7 +182,7 @@ export default function EncorePage() {
                 <div className="stat"><div className="stat-label">Full behavior</div><div className="stat-value">{record.behaviorRecalled ? "Yes" : "No"}</div></div>
                 <div className="stat"><div className="stat-label">Session cost</div><div className="stat-value">${record.sessionCostUsd.toFixed(2)}</div><div className="stat-sub">scored by {record.scorer}</div></div>
               </div>
-              <div className="row"><a className="btn btn-primary" href="/scorecard">See the team scorecard →</a><a className="btn btn-ghost" href="/encore">Run again</a></div>
+              <div className="row"><Link className="btn btn-primary" href="/scorecard">See the team scorecard →</Link><button className="btn btn-ghost" onClick={() => window.location.reload()}>Run again</button></div>
               <details><summary>Structured RecallRecord (JSON)</summary><pre className="json">{JSON.stringify(record, null, 2)}</pre></details>
             </div>
           )}

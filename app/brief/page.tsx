@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useState, useRef, useEffect } from "react";
 import { BRIEF_INTERVIEW, assembleBriefFromAnswers, isBriefAnswerVague, type BriefAnswer, type BriefDraft, type BriefContext } from "@/lib/bangerBrief";
 import { speak, listenOnce, speechSupported } from "@/lib/browserSpeech";
@@ -110,7 +112,7 @@ export default function BriefPage() {
                   <td><b>{h.client}</b></td>
                   <td>{h.brief.objective?.slice(0, 90) || "—"}</td>
                   <td style={{ color: "var(--muted)", whiteSpace: "nowrap" }}>{new Date(h.createdAt).toLocaleString()}</td>
-                  <td style={{ textAlign: "right" }}><a className="btn btn-sm" href={`/brief/${h.briefId}`}>Open brief →</a></td>
+                  <td style={{ textAlign: "right" }}><Link className="btn btn-sm" href={`/brief/${h.briefId}`}>Open brief →</Link></td>
                 </tr>
               ))}
             </tbody>
@@ -128,7 +130,7 @@ export default function BriefPage() {
               <div className="row"><input className="input" style={{ flex: 1 }} value={typed} onChange={(e) => setTyped(e.target.value)} onKeyDown={(e) => e.key === "Enter" && send()} placeholder="…or type your answer" /><button className="btn" onClick={send}>Send</button></div>
             )}
             {phase === "done" && result && (
-              <div className="row"><span className="badge badge-live">Brief sent to the writer</span><a className="btn btn-primary btn-sm" href={`/brief/${result.briefId}`}>Open the brief →</a><a className="btn btn-ghost btn-sm" href="/brief">New interview</a></div>
+              <div className="row"><span className="badge badge-live">Brief sent to the writer</span><Link className="btn btn-primary btn-sm" href={`/brief/${result.briefId}`}>Open the brief →</Link><Link className="btn btn-ghost btn-sm" href="/brief">New interview</Link></div>
             )}
           </section>
           <BriefPanel d={draft} answered={answers.length} />
