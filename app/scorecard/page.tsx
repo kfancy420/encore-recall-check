@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * The Recall Scorecard — what the client's leadership sees two weeks after release.
- * This page is the product Business Bangerz can charge for: proof the message landed,
+ * This is the product Business Bangerz can charge for: proof the message landed,
  * where it did not, and the seed for the next banger.
  */
 export default function ScorecardPage() {
@@ -18,78 +18,62 @@ export default function ScorecardPage() {
   const pct = (n: number) => `${Math.round(n * 100)}%`;
 
   return (
-    <main style={{ maxWidth: 860, margin: "0 auto", padding: 24, fontFamily: "system-ui, sans-serif" }}>
-      <p style={{ color: "#666", margin: 0 }}>Recall Scorecard · {card.client}</p>
-      <h1 style={{ marginTop: 4 }}>&ldquo;{card.bangerTitle}&rdquo; — did it land?</h1>
-      <p style={{ color: "#666" }}>
-        {card.employeesChecked} employees checked, 14 days after release · {card.liveSessions} live session{card.liveSessions === 1 ? "" : "s"} + {card.employeesChecked - card.liveSessions} fixtures
+    <main className="page">
+      <div className="eyebrow">Recall Scorecard · {card.client}</div>
+      <h1>&ldquo;{card.bangerTitle}&rdquo; — did it land?</h1>
+      <p className="lede">
+        {card.employeesChecked} employees checked, 14 days after release · <span className="badge badge-live">{card.liveSessions} live</span>{" "}
+        <span className="badge badge-fixture">{card.employeesChecked - card.liveSessions} fixtures</span>
       </p>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
-        <Stat label="Messages recalled" value={pct(card.overallMessageRecall)} />
-        <Stat label="Can state the full behavior" value={pct(card.behaviorRecallRate)} />
-        <Stat label="Cost per check" value={`$${card.costPerSessionUsd.toFixed(2)}`} sub={`hosted alternative ≈ $${card.hostedCostPerSessionUsd}`} />
+      <div className="grid grid-3" style={{ marginTop: 28 }}>
+        <div className="stat"><div className="stat-label">Messages recalled</div><div className="stat-value">{pct(card.overallMessageRecall)}</div><div className="stat-sub">average across all required messages</div></div>
+        <div className="stat"><div className="stat-label">Can state the full behavior</div><div className="stat-value">{pct(card.behaviorRecallRate)}</div><div className="stat-sub">where + when + what to attach</div></div>
+        <div className="stat"><div className="stat-label">Cost per check</div><div className="stat-value">${card.costPerSessionUsd.toFixed(2)}</div><div className="stat-sub">hosted pipeline would be ≈ ${card.hostedCostPerSessionUsd}</div></div>
       </div>
 
-      <h2>By required message</h2>
-      {card.byMessage.map((m) => (
-        <div key={m.messageId} style={{ margin: "10px 0" }}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span><b>{m.messageId}</b> {m.message}</span><b>{pct(m.recallRate)}</b>
-          </div>
-          <div style={{ background: "#eee", borderRadius: 6, height: 12 }}>
-            <div style={{ width: pct(m.recallRate), height: 12, borderRadius: 6, background: m.recallRate < 0.6 ? "#dc2626" : "#16a34a" }} />
-          </div>
-        </div>
-      ))}
-
-      <h2>By department</h2>
-      <table style={{ borderCollapse: "collapse", width: "100%" }}>
-        <tbody>
-          {card.byDepartment.map((d) => (
-            <tr key={d.department} style={{ borderBottom: "1px solid #eee" }}>
-              <td style={{ padding: 6 }}>{d.department}</td><td style={{ padding: 6 }}>{d.count} checked</td><td style={{ padding: 6, textAlign: "right" }}><b>{pct(d.recallRate)}</b></td>
-            </tr>
+      <div className="split" style={{ marginTop: 20 }}>
+        <section className="card stack">
+          <h3>By required message</h3>
+          {card.byMessage.map((m) => (
+            <div key={m.messageId} className="stack" style={{ gap: 6 }}>
+              <div className="row spread"><span><b>{m.messageId}</b> &nbsp;{m.message}</span><b className={m.recallRate < 0.6 ? "bad" : "ok"}>{pct(m.recallRate)}</b></div>
+              <div className={`bar ${m.recallRate < 0.6 ? "bar-bad" : ""}`}><div style={{ width: pct(m.recallRate) }} /></div>
+            </div>
           ))}
-        </tbody>
-      </table>
+          <div className="divider" />
+          <h3>Next banger seed</h3>
+          {card.nextBangerSeed.length === 0 ? (
+            <p style={{ margin: 0 }}>Every message cleared 60% — nothing to remix. Sell the sequel.</p>
+          ) : (
+            card.nextBangerSeed.map((s) => <div key={s.messageId} className="callout"><b>{s.messageId}</b> — {s.suggestion}</div>)
+          )}
+        </section>
 
-      <h2>Next banger seed</h2>
-      {card.nextBangerSeed.length === 0 ? (
-        <p>Every message cleared 60% — nothing to remix. Sell the sequel.</p>
-      ) : (
-        card.nextBangerSeed.map((s) => (
-          <p key={s.messageId} style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, padding: 12 }}>
-            <b>{s.messageId}</b> — {s.suggestion}
-          </p>
-        ))
-      )}
-
-      <h2>Latest individual checks</h2>
-      <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 14 }}>
-        <thead><tr style={{ textAlign: "left" }}><th>Employee</th><th>Dept</th><th>M1</th><th>M2</th><th>M3</th><th>Scorer</th></tr></thead>
-        <tbody>
-          {[...records].reverse().slice(0, 12).map((r) => (
-            <tr key={r.recordId} style={{ borderBottom: "1px solid #eee" }}>
-              <td style={{ padding: 6 }}>{r.employeeAlias}{r.source === "live" ? " ●" : ""}</td>
-              <td>{r.department}</td>
-              {["M1", "M2", "M3"].map((id) => <td key={id}>{r.answers.find((a) => a.messageId === id)?.recalled ? "✓" : "✗"}</td>)}
-              <td><code>{r.scorer}</code></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p style={{ color: "#888", fontSize: 13 }}>● live session from this machine. Fixtures are synthetic employees of a fictional client.</p>
+        <section className="card stack">
+          <h3>By department</h3>
+          <table className="table"><tbody>
+            {card.byDepartment.map((d) => (
+              <tr key={d.department}><td>{d.department}</td><td style={{ color: "var(--muted)" }}>{d.count} checked</td><td style={{ textAlign: "right" }}><b>{pct(d.recallRate)}</b></td></tr>
+            ))}
+          </tbody></table>
+          <div className="divider" />
+          <h3>Latest checks</h3>
+          <table className="table">
+            <thead><tr><th>Employee</th><th>M1</th><th>M2</th><th>M3</th><th>Scorer</th></tr></thead>
+            <tbody>
+              {[...records].reverse().slice(0, 12).map((r) => (
+                <tr key={r.recordId}>
+                  <td>{r.employeeAlias} {r.source === "live" && <span className="badge badge-live" style={{ marginLeft: 6 }}>live</span>}</td>
+                  {["M1", "M2", "M3"].map((id) => { const ok = r.answers.find((a) => a.messageId === id)?.recalled; return <td key={id} className={ok ? "ok" : "bad"}>{ok ? "✓" : "✗"}</td>; })}
+                  <td><code style={{ fontSize: 12, color: "var(--muted)" }}>{r.scorer}</code></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      </div>
+      <p style={{ color: "var(--faint)", fontSize: 13, marginTop: 20 }}>Fixtures are synthetic employees of a fictional client. Live rows come from sessions on this machine.</p>
     </main>
-  );
-}
-
-function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
-  return (
-    <div style={{ border: "1px solid #ddd", borderRadius: 12, padding: 16 }}>
-      <div style={{ color: "#666", fontSize: 13 }}>{label}</div>
-      <div style={{ fontSize: 36, fontWeight: 700 }}>{value}</div>
-      {sub && <div style={{ color: "#888", fontSize: 12 }}>{sub}</div>}
-    </div>
   );
 }

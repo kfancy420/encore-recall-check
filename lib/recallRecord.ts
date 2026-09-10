@@ -19,6 +19,8 @@ export type RecallAnswer = {
   confidence: number;
   /** Phrase or reasoning that counted as evidence of recall. */
   evidence: string;
+  /** How the employee answered: spoken, tapped a choice, or typed. */
+  inputMode?: "voice" | "tap" | "typed";
 };
 
 export type VoiceConsent = {

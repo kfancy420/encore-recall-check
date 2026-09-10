@@ -20,7 +20,7 @@ export type RecallCheckInput = {
   employeeAlias: string;
   department: string;
   consent: VoiceConsent;
-  answers: { messageId: string; transcript: string; followUpTranscript?: string }[];
+  answers: { messageId: string; transcript: string; followUpTranscript?: string; inputMode?: "voice" | "tap" | "typed" }[];
   brief?: SongBrief;
 };
 
@@ -36,7 +36,7 @@ export async function runRecallCheckWorkflow(input: RecallCheckInput): Promise<R
     const transcript = [given?.transcript ?? "", given?.followUpTranscript ?? ""].filter(Boolean).join(" ");
     const scored = await scoreRecallAgainstBrief(brief, message, transcript);
     if (scored.scorer === "ollama-local") scorer = "ollama-local";
-    answers.push({ ...scored.answer, followUpTranscript: given?.followUpTranscript });
+    answers.push({ ...scored.answer, followUpTranscript: given?.followUpTranscript, inputMode: given?.inputMode ?? "typed" });
     logRecallEvent("recall_scored", brief.bangerId, {
       employeeAlias: input.employeeAlias,
       messageId: message.id,
