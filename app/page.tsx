@@ -11,11 +11,12 @@ const portals = [
 export default function Home() {
   return (
     <main className="page">
-      <div className="eyebrow">Business Bangerz × Cadre AI · voice agents</div>
-      <h1 style={{ fontSize: "clamp(48px, 7vw, 92px)" }}>The Banger Loop.</h1>
-      <p className="lede" style={{ fontSize: 26, maxWidth: "48ch" }}>
-        Listen → Create → Release → Listen again. Business Bangerz already wins the middle. These voice agents
-        close the loop — and every one runs for $0 per use.
+      <div className="eyebrow">Built for Business Bangerz</div>
+      <h1 style={{ fontSize: "clamp(48px, 7vw, 92px)" }}>Your Banger Loop,<br />closed.</h1>
+      <p className="lede" style={{ fontSize: 26, maxWidth: "50ch" }}>
+        You already win Create and Release. This is the rest of the loop: proof that your bangers land, revisions
+        without the email, and your clients&apos; own sounds and voices in the song — every piece runs for $0 per use,
+        and one person can run all of it.
       </p>
       <div className="hub">
         {portals.map((p) => (

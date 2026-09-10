@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { BangerPlayer } from "./BangerPlayer";
 
 export const metadata: Metadata = {
   title: "Banger Loop — voice agents for Business Bangerz",
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="nav">
           <div className="nav-inner">
             <a href="/" className="brand"><span className="brand-dot" />Banger Loop</a>
+            <BangerPlayer />
             <nav className="nav-links">
               <a href="/encore">Encore</a>
               <a href="/scorecard">Scorecard</a>

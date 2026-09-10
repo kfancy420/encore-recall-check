@@ -119,3 +119,8 @@ details summary { cursor: pointer; color: var(--muted); font-weight: 700; }
 .portal-big .portal-line { font-size: 30px; }
 .portal-impact { font-size: 17px; opacity: .85; line-height: 1.35; }
 .portal-go { position: absolute; top: 26px; right: 30px; font-weight: 800; font-size: 18px; opacity: .9; }
+
+/* Global player in the nav */
+.player { display: flex; align-items: center; gap: 8px; }
+.player-lyric { font-weight: 800; font-size: 16px; color: var(--accent); max-width: 380px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 900px) { .player-lyric { display: none; } }

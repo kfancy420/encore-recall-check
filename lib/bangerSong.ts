@@ -11,8 +11,8 @@
 export const BPM = 100;
 export const BEAT = 60 / BPM;
 export const BAR = BEAT * 4;
-/** Every lyric line gets two bars. */
-export const LINE_SECONDS = BAR * 2;
+/** One lyric line per bar — dense, no dead air. */
+export const LINE_SECONDS = BAR;
 
 export type SongSectionKind = "intro" | "verse" | "chorus" | "bridge" | "outro";
 export type LyricLine = { text: string; at: number };
@@ -46,7 +46,7 @@ const RAW: { name: string; kind: SongSectionKind; lines: string[]; barsIfEmpty?:
     "Tap, snap, submit, that's the whole trip",
   ] },
   { name: "Chorus 3", kind: "chorus", lines: CHORUS },
-  { name: "Outro", kind: "outro", lines: ["Expense it, don't stress it"], barsIfEmpty: 2 },
+  { name: "Outro", kind: "outro", lines: ["Expense it, don't stress it", "Expense it, don't stress it"], barsIfEmpty: 2 },
 ];
 
 /** Lay the sections out on the timeline. */

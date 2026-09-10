@@ -5,154 +5,160 @@
    "index": 0,
    "text": "Friday on the dock and the coffee's on me",
    "file": "/vocals/line-00.wav",
-   "seconds": 2.379,
-   "rate": 140
+   "seconds": 2.092,
+   "rate": 185
   },
   {
    "index": 1,
    "text": "Fuel at the pump, got a crew of three",
    "file": "/vocals/line-01.wav",
-   "seconds": 2.565,
-   "rate": 140
+   "seconds": 2.162,
+   "rate": 199
   },
   {
    "index": 2,
    "text": "Used to hold the paper till the end of the month",
    "file": "/vocals/line-02.wav",
-   "seconds": 2.719,
-   "rate": 140
+   "seconds": 2.201,
+   "rate": 210
   },
   {
    "index": 3,
    "text": "Now I open Spendly and I'm done with the hunt",
    "file": "/vocals/line-03.wav",
-   "seconds": 2.756,
-   "rate": 140
+   "seconds": 2.121,
+   "rate": 213
   },
   {
    "index": 4,
    "text": "Expense it, don't stress it, drop it in the app",
    "file": "/vocals/line-04.wav",
-   "seconds": 3.245,
-   "rate": 140
+   "seconds": 2.183,
+   "rate": 252
   },
   {
    "index": 5,
    "text": "Seven days, snap the receipt, that's a wrap",
    "file": "/vocals/line-05.wav",
-   "seconds": 3.251,
-   "rate": 140
+   "seconds": 2.179,
+   "rate": 251
   },
   {
    "index": 6,
    "text": "Spendly's got you covered, no more inbox chase",
    "file": "/vocals/line-06.wav",
-   "seconds": 3.379,
-   "rate": 140
+   "seconds": 2.157,
+   "rate": 262
   },
   {
    "index": 7,
    "text": "Expense it, don't stress it, put it in its place",
    "file": "/vocals/line-07.wav",
-   "seconds": 3.338,
-   "rate": 140
+   "seconds": 2.241,
+   "rate": 258
   },
   {
    "index": 8,
    "text": "Dispatch on the line, Dana's got a plan",
    "file": "/vocals/line-08.wav",
-   "seconds": 2.813,
-   "rate": 140
+   "seconds": 2.162,
+   "rate": 217
   },
   {
    "index": 9,
    "text": "Photo of the receipt right there in her hand",
    "file": "/vocals/line-09.wav",
-   "seconds": 2.367,
-   "rate": 140
+   "seconds": 2.069,
+   "rate": 183
   },
   {
    "index": 10,
    "text": "One week window so the money comes back",
    "file": "/vocals/line-10.wav",
-   "seconds": 2.473,
-   "rate": 140
+   "seconds": 2.082,
+   "rate": 191
   },
   {
    "index": 11,
    "text": "Warehouse to the road, everybody on track",
    "file": "/vocals/line-11.wav",
-   "seconds": 2.798,
-   "rate": 140
+   "seconds": 2.153,
+   "rate": 217
   },
   {
    "index": 12,
    "text": "Expense it, don't stress it, drop it in the app",
    "file": "/vocals/line-04.wav",
-   "seconds": 3.245
+   "seconds": 2.183
   },
   {
    "index": 13,
    "text": "Seven days, snap the receipt, that's a wrap",
    "file": "/vocals/line-05.wav",
-   "seconds": 3.251
+   "seconds": 2.179
   },
   {
    "index": 14,
    "text": "Spendly's got you covered, no more inbox chase",
    "file": "/vocals/line-06.wav",
-   "seconds": 3.379
+   "seconds": 2.157
   },
   {
    "index": 15,
    "text": "Expense it, don't stress it, put it in its place",
    "file": "/vocals/line-07.wav",
-   "seconds": 3.338
+   "seconds": 2.241
   },
   {
    "index": 16,
    "text": "No more digging through the truck for the slip",
    "file": "/vocals/line-16.wav",
-   "seconds": 2.338,
-   "rate": 140
+   "seconds": 2.131,
+   "rate": 181
   },
   {
    "index": 17,
    "text": "Tap, snap, submit, that's the whole trip",
    "file": "/vocals/line-17.wav",
-   "seconds": 3.379,
-   "rate": 140
+   "seconds": 2.155,
+   "rate": 261
   },
   {
    "index": 18,
    "text": "Expense it, don't stress it, drop it in the app",
    "file": "/vocals/line-04.wav",
-   "seconds": 3.245
+   "seconds": 2.183
   },
   {
    "index": 19,
    "text": "Seven days, snap the receipt, that's a wrap",
    "file": "/vocals/line-05.wav",
-   "seconds": 3.251
+   "seconds": 2.179
   },
   {
    "index": 20,
    "text": "Spendly's got you covered, no more inbox chase",
    "file": "/vocals/line-06.wav",
-   "seconds": 3.379
+   "seconds": 2.157
   },
   {
    "index": 21,
    "text": "Expense it, don't stress it, put it in its place",
    "file": "/vocals/line-07.wav",
-   "seconds": 3.338
+   "seconds": 2.241
   },
   {
    "index": 22,
    "text": "Expense it, don't stress it",
    "file": "/vocals/line-22.wav",
    "seconds": 1.922,
-   "rate": 140
+   "rate": 150
+  },
+  {
+   "index": 23,
+   "text": "Expense it, don't stress it",
+   "file": "/vocals/line-22.wav",
+   "seconds": 1.922
   }
  ]
 }
