@@ -1,10 +1,12 @@
-# Banger Loop — Encore, plus Banger Brief and Revision Room
+# Banger Loop — Encore, plus four more voice-agent stops on the loop
 
 ## 1. What this is
 
 **Encore** is the primary concept: a voice agent that calls the room two weeks after a banger ships, asks each employee three spoken questions about the message the song carried, scores the answers against the original song brief, and rolls everyone up into a **Recall Scorecard** the client's leadership can see. It gives Business Bangerz proof that the message landed — and tells them exactly what to remix when it didn't.
 
-The repository is a small suite around the Banger Loop, sharing one audio layer and one local model: **Banger Brief** (`/brief`, LISTEN — F1/F6, cost: the intake interview as a conversation that emits a structured brief) and **Revision Room** (`/revision`, CREATE — F2, cost: talk over the track, get timestamped, prioritized production notes). Encore (`/encore` → `/scorecard`, LISTEN AGAIN) is the one scored against the rubric; the other two exist because the same brief object flows through all three, which is what makes F6 (reusable memory) real rather than claimed.
+The repository is a suite around the Banger Loop, sharing one audio layer, one local model, and one song: **Revision Room** (`/revision`, CREATE — F2, cost: talk over the banger, get timestamped, prioritized production notes), **Sonic DNA** (`/sonic-dna`, CREATE — F4, revenue: workplace sounds become the drum kit), **Company Choir** (`/choir`, CREATE — F4, revenue: consented employee voices on the chorus), and **Banger Brief** (`/brief`, LISTEN — F1/F6, cost: the intake interview as a conversation). Encore (`/encore` → `/scorecard`, LISTEN AGAIN) is the primary concept and the one to score against the rubric; the others exist because the same brief object and the same song flow through all of them — that is what makes F6 (reusable memory) real rather than claimed.
+
+The song itself — *"Expense It, Don't Stress It"* — is written from the demo brief and performed in the browser: Web Audio band, and a vocal rendered by the macOS speech engine (`scripts/render-vocals.py`, free, local) that is rapped on the downbeat in the verses and pitch-shifted onto a hook melody in the choruses (`lib/vocalPerformer.ts`). Original by construction; no recordings of any person, no copyrighted audio.
 
 ## 2. The outcome it targets
 
@@ -32,7 +34,10 @@ Small-team constraint: the operator does nothing per employee. They send one lin
 | Song brief for the demo banger | **Fixture** (`lib/songBrief.ts`), fictional client "Acme Logistics" |
 | Sending the link to employees, Supabase storage, the actual song | **Not built** — see section 7 |
 | **Banger Brief**: 5-question voice/typed interview, vague-answer follow-up, live brief panel, local-model refinement into OR-6 fields incl. pronunciations (OR-5), saved JSON | **Real** (`lib/bangerBrief.ts`, `app/brief`) |
-| **Revision Room**: 60-second synthetic track generated with the Web Audio API, continuous listening while it plays, remarks timestamped to the playhead and mapped to song sections, rule-based + local-model classification into production notes, saved JSON | **Real** (`lib/revisionNotes.ts`, `lib/demoTrack.ts`, `app/revision`); the "example session" button loads fixtures |
+| **Revision Room**: the full ~2-minute banger performed in the browser (drums, bass, pad, lead, rendered rapped/sung vocal with lyric display), continuous listening while it plays with the song's own lyrics filtered out, remarks timestamped to the playhead and mapped to song sections, rule-based + local-model classification into production notes, seek by section, saved JSON | **Real** (`lib/bangerSong.ts`, `lib/demoTrack.ts`, `lib/vocalPerformer.ts`, `lib/revisionNotes.ts`, `app/revision`); "Load last session" loads fixture notes |
+| **Sonic DNA**: record three workplace sounds on the device, trimmed and normalized, swapped in as kick/snare/hat, the same song re-performed with them, sonic-signature record + WAVs saved | **Real** (`lib/micRecorder.ts`, `app/sonic-dna`) |
+| **Company Choir**: built consent flow (disclosure, three explicit agreements, retention, withdrawal, no cloning), per-person recording of the hook, stacked on the first beat of every chorus over the lead vocal, consent records saved with the clips | **Real** (`app/choir`, `lib/consent.ts`) |
+| Brief history and writer-ready brief page | **Real** (`/brief`, `/brief/<id>`) |
 | Tap-to-answer choices in Encore (in case the microphone fails) | **Real** |
 
 Everything in the demo that is a fixture is labeled as such on screen (● marks the live session on the scorecard).
@@ -48,14 +53,17 @@ Everything in the demo that is a fixture is labeled as such on screen (● marks
 7. **The scorecard aggregates everyone.** Recall by required message, by department, the share who can state the full behavior, cost per check, and a **next banger seed**: any message under 60% recall, with a suggestion to make it the hook of the remix. (`lib/aggregateScorecard.ts`, `app/scorecard/page.tsx`)
 8. **Measurement events** are logged at each step so the revenue outcome can be proven later: invited → started → scored → completed → scorecard viewed → repeat purchase attributed. (`lib/recallEventLog.ts`)
 
-### The other two apps, briefly
+### The other apps, briefly
 
-- **Banger Brief** asks: what's coming up → what people get wrong and what they should do differently on Monday (follow-up: one real example) → who it's for → must-say phrases, banned words, names and acronyms said the way the team says them → tone and references. Each answer lands in the brief immediately (`assembleBriefFromAnswers`); at the end the local model tidies it (`refineBriefWithLocalModel`). Output: `data/briefs/*.json`.
+- **Banger Brief** takes client, topic and audience as typed context, then asks three spoken questions: what people get wrong and what they should do differently on Monday (follow-up: one real example) → must-say phrases, banned words, names and acronyms said the way the team says them → what it should sound like. Each answer lands in the brief immediately (`assembleBriefFromAnswers`); at the end the local model tidies it (`refineBriefWithLocalModel`). Output: `data/briefs/*.json`, browsable at `/brief` and `/brief/<id>`.
+- **Sonic DNA** records a kick, a snare and a hat from whatever is in the room (`recordClip` trims the silence before the hit and normalizes), then `performBanger` plays the chorus with those buffers in place of the synthesized drums. Output: a sonic-signature record and WAVs under `data/sounds/`.
+- **Company Choir** gates the microphone behind a consent flow, records each person saying the hook, and schedules every voice on the first beat of each chorus as cameos. Output: a choir record with one consent record per person, plus WAVs, under `data/sounds/`.
 - **Revision Room** plays a draft and listens continuously (`listenContinuous`). Each final phrase is stamped with the playhead position, mapped to a section (`sectionAt`), and classified (`classifyFeedback`) into `{section, element, verdict, priority, action}`. The client can also click the timeline and type. Output: `data/revisions/*.json`.
 
 ## 5. Setup
 
 - Node 22+ (uses built-in `fetch`; tested on Node 25), npm
+- macOS `say` only if you want to re-render the vocal (`python3 scripts/render-vocals.py`); the rendered lines are committed under `public/vocals/`
 - Google Chrome for the voice agent (Web Speech API speech recognition is Chrome-only; other browsers get the typed mode)
 - **No paid API keys.** Optional: [Ollama](https://ollama.com) with `ollama pull qwen2.5:1.5b` for semantic scoring. Without it, the phrase matcher scores.
 
@@ -71,7 +79,7 @@ npm run dev
 npm run dev
 # open http://localhost:3000/encore  → consent → answer three questions by voice (or tap) → recall record
 # open http://localhost:3000/scorecard → the aggregated Recall Scorecard
-# also: http://localhost:3000/brief and http://localhost:3000/revision
+# also: /revision (play the banger and talk), /sonic-dna, /choir, /brief
 ```
 
 Offline / no-microphone demonstration of the same workflow (OR-13), with the dev server running:
@@ -88,16 +96,17 @@ Deliberately cut, in order of how much I wanted to build it:
 - **Supabase persistence.** Records are JSON on disk. The path into the existing Next.js/Supabase surface is one `recall_records` table with a foreign key to the song record, one RLS policy, and the scorecard as a view — roughly half a day. See `lib/recallStore.ts`.
 - **Reading the event log.** Events are written, not charted. Two more hours: a per-banger funnel and a "scorecard viewed → repeat order" attribution view.
 - **A realtime speech-to-speech agent.** The assembled pipeline (browser STT → scorer → browser TTS) was the only way to hit $0 per session, which matters for a cost-free proof product. Interruption handling is limited to silence retry.
+- **A better singer.** The vocal is a speech engine pitch-shifted with a granular shifter — on the beat and in key, but audibly synthetic. That is deliberate: music craft belongs to Business Bangerz (RFP §6.3); the point is that the whole pipeline re-renders the same song with a client's sounds and voices.
 - **Brief authoring.** The brief is a fixture. In production it is the output of the intake step (Banger Brief) — Encore is the other end of the same loop.
 - Multi-client, auth, music generation.
 - Wiring Banger Brief's output into Encore's questions automatically. Today Encore reads a fixture brief with the same shape; the join is a file read.
 
 ## 8. AI-use disclosure
 
-Built in a 90-minute window with Claude (Anthropic) doing most of the typing: scaffolding, the lib modules, the pages, fixture generation, and this README — from a plan I chose and a scope I cut. Recall scoring at runtime uses a local `qwen2.5:1.5b` model via Ollama (Apache-2.0 model license, permits commercial use), falling back to deterministic code. No hosted model APIs are used at runtime.
+Built in the event window with Claude (Anthropic) doing most of the typing: scaffolding, the lib modules, the pages, fixture generation, and this README — from a plan I chose and a scope I cut. Recall scoring at runtime uses a local `qwen2.5:1.5b` model via Ollama (Apache-2.0 model license, permits commercial use), falling back to deterministic code. No hosted model APIs are used at runtime.
 
 ## 9. Attribution
 
 - Next.js (MIT), React (MIT), Ollama (MIT), Qwen2.5 1.5B (Apache-2.0)
 - Speech recognition and synthesis: the browser's Web Speech API (Chrome)
-- No audio files are included; the Revision Room draft is synthesized at runtime with the Web Audio API. No recordings of any person are stored. All employee names, the client, and the banger are fictional; no Business Bangerz client material was used.
+- The only audio files are the lyric lines under `public/vocals/`, rendered by the macOS speech engine ("Samantha") from lyrics written for this prototype. The band is synthesized at runtime with the Web Audio API. Recordings made in Sonic DNA / Company Choir stay on the machine, are consented, and are excluded from the repository. All employee names, the client, and the banger are fictional; no Business Bangerz client material was used.
