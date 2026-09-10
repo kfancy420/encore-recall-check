@@ -102,3 +102,20 @@ details summary { cursor: pointer; color: var(--muted); font-weight: 700; }
 .note time { font-family: var(--mono); color: var(--muted); font-size: 15px; font-weight: 700; padding-top: 4px; }
 .note .action { font-size: 19px; font-weight: 600; margin-top: 8px; }
 .big { font-size: 22px; }
+/* Hub portals */
+.hub { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 44px; }
+@media (max-width: 1000px) { .hub { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .hub { grid-template-columns: 1fr; } }
+.portal { display: flex; flex-direction: column; gap: 8px; min-height: 300px; padding: 30px; border-radius: 26px; position: relative; overflow: hidden; transition: transform .15s ease, box-shadow .15s ease; box-shadow: var(--shadow); }
+.portal:hover { transform: translateY(-4px); box-shadow: 0 18px 50px rgba(12,4,7,.16); }
+.portal-big { grid-column: span 2; min-height: 360px; }
+.portal-red { background: var(--accent); color: #fff; }
+.portal-blue { background: var(--blue); color: #fff; }
+.portal-ink { background: var(--text); color: #fff; }
+.portal-step { font-size: 14px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
+.portal-name { font-size: clamp(34px, 3.4vw, 52px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin-top: auto; }
+.portal-big .portal-name { font-size: clamp(44px, 4.6vw, 72px); }
+.portal-line { font-size: 24px; font-weight: 700; line-height: 1.2; }
+.portal-big .portal-line { font-size: 30px; }
+.portal-impact { font-size: 17px; opacity: .85; line-height: 1.35; }
+.portal-go { position: absolute; top: 26px; right: 30px; font-weight: 800; font-size: 18px; opacity: .9; }
