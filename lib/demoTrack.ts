@@ -9,6 +9,7 @@
  */
 import { BAR, BEAT, SONG_SECONDS, SONG_SECTIONS, ALL_LINES, sectionKindAt, type LyricLine } from "./bangerSong";
 import { speak, stopSpeaking } from "./browserSpeech";
+import { scheduleLine, vocalChain, type VocalSet } from "./vocalPerformer";
 
 export const TRACK_SECONDS = SONG_SECONDS;
 export const TRACK_TITLE = "Expense It, Don't Stress It — Draft 2";
@@ -17,6 +18,8 @@ export type DrumSamples = { kick?: AudioBuffer; snare?: AudioBuffer; hat?: Audio
 export type Cameo = { buffer: AudioBuffer; at: number; label: string };
 export type PerformanceOptions = {
   vocal?: boolean;
+  /** Pre-rendered vocal lines (loadVocals). Without them the speech engine speaks the lines live. */
+  vocals?: VocalSet | null;
   drumSamples?: DrumSamples;
   cameos?: Cameo[];
   onLine?: (line: LyricLine) => void;
@@ -55,11 +58,18 @@ export function performBanger(ctx: AudioContext, opts: PerformanceOptions = {}):
     }
   }
 
-  // Vocal: each lyric line is spoken on its bar. Stagger a little ahead of the beat so the words land on the downbeat.
+  // Vocal. Rendered lines are rapped/sung on the downbeat through the vocal chain;
+  // otherwise the speech engine speaks each line live (staggered a little ahead of the beat).
   if (opts.vocal !== false) {
+    const chain = opts.vocals ? vocalChain(ctx, master) : null;
     for (const line of ALL_LINES) {
       if (line.at < offset - 0.01) continue;
-      timers.push(setTimeout(() => { opts.onLine?.(line); speak(line.text, 1.15); }, Math.max(0, (line.at - offset) * 1000 - 120)));
+      if (opts.vocals && chain) {
+        scheduleLine(ctx, chain, opts.vocals, line, t0 + line.at);
+        timers.push(setTimeout(() => opts.onLine?.(line), Math.max(0, (line.at - offset) * 1000)));
+      } else {
+        timers.push(setTimeout(() => { opts.onLine?.(line); speak(line.text, 1.15); }, Math.max(0, (line.at - offset) * 1000 - 120)));
+      }
     }
   }
 

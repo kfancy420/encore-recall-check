@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { BRIEF_INTERVIEW, assembleBriefFromAnswers, isBriefAnswerVague, type BriefAnswer, type BriefDraft, type BriefContext } from "@/lib/bangerBrief";
 import { speak, listenOnce, speechSupported } from "@/lib/browserSpeech";
 import { AppHero } from "../AppHero";
@@ -27,6 +27,8 @@ export default function BriefPage() {
   const [elapsed, setElapsed] = useState(0);
   const resolver = useRef<((t: string) => void) | null>(null);
   const cancel = useRef<(() => void) | null>(null);
+  const [history, setHistory] = useState<{ briefId: string; client: string; createdAt: string; brief: BriefDraft }[]>([]);
+  useEffect(() => { fetch("/api/brief").then((r) => r.json()).then(setHistory).catch(() => {}); }, [phase]);
 
   const say = (who: Line["who"], text: string) => setLines((l) => [...l, { who, text }]);
   const ask = (text: string) => { say("agent", text); return voice ? speak(text) : Promise.resolve(); };
@@ -97,6 +99,25 @@ export default function BriefPage() {
         </section>
       )}
 
+      {phase === "start" && history.length > 0 && (
+        <section className="card card-sand stack" style={{ marginTop: 22 }}>
+          <h2>Brief history</h2>
+          <table className="table">
+            <thead><tr><th>Client</th><th>Objective</th><th>Captured</th><th></th></tr></thead>
+            <tbody>
+              {history.map((h) => (
+                <tr key={h.briefId}>
+                  <td><b>{h.client}</b></td>
+                  <td>{h.brief.objective?.slice(0, 90) || "—"}</td>
+                  <td style={{ color: "var(--muted)", whiteSpace: "nowrap" }}>{new Date(h.createdAt).toLocaleString()}</td>
+                  <td style={{ textAlign: "right" }}><a className="btn btn-sm" href={`/brief/${h.briefId}`}>Open brief →</a></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      )}
+
       {phase !== "start" && (
         <div className="split" style={{ marginTop: 36 }}>
           <section className="card stack">
@@ -107,7 +128,7 @@ export default function BriefPage() {
               <div className="row"><input className="input" style={{ flex: 1 }} value={typed} onChange={(e) => setTyped(e.target.value)} onKeyDown={(e) => e.key === "Enter" && send()} placeholder="…or type your answer" /><button className="btn" onClick={send}>Send</button></div>
             )}
             {phase === "done" && result && (
-              <div className="row"><span className="badge badge-live">Brief sent to the writer · {result.briefId}</span><span className="badge">refined by {result.refinedBy}</span><a className="btn btn-ghost btn-sm" href="/brief">New interview</a></div>
+              <div className="row"><span className="badge badge-live">Brief sent to the writer</span><a className="btn btn-primary btn-sm" href={`/brief/${result.briefId}`}>Open the brief →</a><a className="btn btn-ghost btn-sm" href="/brief">New interview</a></div>
             )}
           </section>
           <BriefPanel d={draft} answered={answers.length} />

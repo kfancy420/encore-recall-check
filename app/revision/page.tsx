@@ -5,6 +5,7 @@ import { EXAMPLE_NOTES, type ProductionNote } from "@/lib/revisionNotes";
 import { performBanger, TRACK_SECONDS, TRACK_TITLE } from "@/lib/demoTrack";
 import { SONG_SECTIONS, isLyricEcho, type LyricLine } from "@/lib/bangerSong";
 import { listenContinuous, speechSupported } from "@/lib/browserSpeech";
+import { loadVocals, type VocalSet } from "@/lib/vocalPerformer";
 import { AppHero } from "../AppHero";
 
 /**
@@ -25,6 +26,8 @@ export default function RevisionPage() {
   const perfRef = useRef<{ stop: () => void; startedAt: number } | null>(null);
   const stopListen = useRef<(() => void) | null>(null);
   const posRef = useRef(0);
+  const vocalsRef = useRef<VocalSet | null>(null);
+  const [vocalsReady, setVocalsReady] = useState(false);
 
   useEffect(() => {
     if (!playing) return;
@@ -47,11 +50,12 @@ export default function RevisionPage() {
     setNotes((n) => [...n, note].sort((a, b) => a.atSeconds - b.atSeconds));
   };
 
-  const play = (from = posRef.current >= TRACK_SECONDS - 1 ? 0 : posRef.current) => {
+  const play = async (from = posRef.current >= TRACK_SECONDS - 1 ? 0 : posRef.current) => {
     perfRef.current?.stop();
     const ctx = ctxRef.current ?? new AudioContext();
     ctxRef.current = ctx; ctx.resume();
-    perfRef.current = performBanger(ctx, { from, onLine: setLine, onEnd: stop });
+    if (!vocalsRef.current) { vocalsRef.current = await loadVocals(ctx); setVocalsReady(Boolean(vocalsRef.current)); }
+    perfRef.current = performBanger(ctx, { from, vocals: vocalsRef.current, onLine: setLine, onEnd: stop });
     setSaved(null); setPlaying(true);
     if (!stopListen.current && speechSupported()) { stopListen.current = listenContinuous(addRemark); setMicOn(true); }
   };
@@ -101,6 +105,7 @@ export default function RevisionPage() {
           <button className="btn btn-ghost" onClick={() => seek(SONG_SECTIONS[2].start)}>Chorus</button>
           <button className="btn btn-ghost" onClick={() => seek(SONG_SECTIONS[3].start)}>Verse 2</button>
           <span className="badge">{fmt(pos)} / {fmt(TRACK_SECONDS)}</span>
+          {vocalsReady && <span className="badge badge-violet">vocal: rendered · sung chorus</span>}
           {micOn && <span className="status"><span className="pulse" />listening while it plays</span>}
         </div>
         <div className="timeline" onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); seek(((e.clientX - r.left) / r.width) * TRACK_SECONDS); }}>

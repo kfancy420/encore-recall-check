@@ -44,3 +44,4 @@ next-env.d.ts
 data/events.jsonl
 npm-install.log
 dev.log
+data/sounds/*/*.wav

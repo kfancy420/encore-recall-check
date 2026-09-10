@@ -15,10 +15,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="nav-inner">
             <a href="/" className="brand"><span className="brand-dot" />Banger Loop</a>
             <nav className="nav-links">
-              <a href="/brief">Banger Brief</a>
-              <a href="/revision">Revision Room</a>
               <a href="/encore">Encore</a>
               <a href="/scorecard">Scorecard</a>
+              <a href="/revision">Revision Room</a>
+              <a href="/sonic-dna">Sonic DNA</a>
+              <a href="/choir">Company Choir</a>
+              <a href="/brief">Banger Brief</a>
             </nav>
           </div>
         </header>
