@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { DEMO_SECTIONS, EXAMPLE_NOTES, type ProductionNote } from "@/lib/revisionNotes";
-import { startDemoTrack, TRACK_SECONDS } from "@/lib/demoTrack";
+import { startDemoTrack, TRACK_SECONDS, TRACK_TITLE } from "@/lib/demoTrack";
 import { listenContinuous, speechSupported } from "@/lib/browserSpeech";
+import { AppHero } from "../AppHero";
 
 /**
  * Revision Room — press play, talk over the track. Every remark is timestamped to
@@ -69,21 +70,33 @@ export default function RevisionPage() {
 
   return (
     <main className="page">
-      <div className="eyebrow">Create · F2 revision friction</div>
-      <h1>Revision Room</h1>
-      <p className="lede">Press play and talk. &ldquo;Verse two feels corny&rdquo; becomes a timestamped, prioritized production note — no email paragraphs to translate.</p>
+      <AppHero
+        eyebrow="Step 2 · Create · fixes F2 revision friction"
+        title="Revision Room"
+        what={`The client presses play and talks over the draft. "Verse two feels corny" becomes a note pinned to 0:37, tagged lyrics, marked change, with an action the producer can execute — no email paragraphs to translate.`}
+        impact={[
+          { value: "0", label: "emails to decode", tone: "blue" },
+          { value: "−2", label: "revision rounds per banger", tone: "red" },
+          { value: "1 list", label: "sorted by song position" },
+        ]}
+      />
 
-      <section className="card stack" style={{ marginTop: 28 }}>
+      <section className="card stack" style={{ marginTop: 36 }}>
         <div className="row spread">
           <div className="row">
-            {!playing ? <button className="btn btn-primary btn-lg" onClick={play}>▶ Play the draft</button> : <button className="btn btn-lg" onClick={stop}>■ Stop</button>}
+            <div><div className="label">Now reviewing</div><div style={{ fontSize: 22, fontWeight: 800 }}>{TRACK_TITLE}</div></div>
+          </div>
+        </div>
+        <div className="row spread">
+          <div className="row">
+            {!playing ? <button className="btn btn-primary btn-lg" onClick={play}>▶ Play and talk</button> : <button className="btn btn-lg" onClick={stop}>■ Stop</button>}
             <span className="badge">{fmt(pos)} / {fmt(TRACK_SECONDS)}</span>
             {micOn && <span className="status"><span className="pulse" />listening while it plays</span>}
           </div>
           <div className="row">
-            <button className="btn btn-sm btn-ghost" onClick={() => setNotes(EXAMPLE_NOTES)}>Load example session</button>
-            <button className="btn btn-sm" disabled={!notes.length} onClick={save}>Save production notes</button>
-            {saved && <span className="badge badge-live">saved {saved}</span>}
+            <button className="btn btn-sm btn-ghost" onClick={() => setNotes(EXAMPLE_NOTES)}>Load last session</button>
+            <button className="btn btn-sm btn-primary" disabled={!notes.length} onClick={save}>Send notes to the producer</button>
+            {saved && <span className="badge badge-live">sent · {saved}</span>}
           </div>
         </div>
         <div className="timeline" onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); posRef.current = ((e.clientX - r.left) / r.width) * TRACK_SECONDS; setPos(posRef.current); }}>
@@ -96,13 +109,12 @@ export default function RevisionPage() {
           <button className="btn" onClick={() => { if (typed.trim()) { addRemark(typed.trim()); setTyped(""); } }}>Add note</button>
         </div>
         {pending.map((p) => <div key={p} className="status"><span className="pulse" />classifying “{p}”…</div>)}
-        <p style={{ color: "var(--faint)", fontSize: 13, margin: 0 }}>The draft is a synthetic 60-second bed generated in your browser — original audio, no recordings. In production this is the client&apos;s actual banger.</p>
       </section>
 
       <div className="split" style={{ marginTop: 20 }}>
         <section className="card stack">
-          <h3>Production notes · {notes.length}</h3>
-          {notes.length === 0 && <p style={{ color: "var(--faint)", margin: 0 }}>Nothing yet. Play and talk, type a remark, or load the example session.</p>}
+          <h2>Production notes · {notes.length}</h2>
+          {notes.length === 0 && <p className="big" style={{ color: "var(--muted)", margin: 0 }}>Press play and say what you think. Every remark lands here, pinned to the second you said it.</p>}
           {bySection.map(({ s, ns }) => (
             <div key={s.name}>
               <div className="row spread" style={{ marginBottom: 4 }}><b>{s.name}</b><span className="badge">{fmt(s.start)}–{fmt(s.end)}</span></div>
@@ -111,7 +123,7 @@ export default function RevisionPage() {
                   <time>{fmt(n.atSeconds)}</time>
                   <div>
                     <div className="row" style={{ gap: 8 }}><span className="badge" style={{ color: color(n.verdict), borderColor: color(n.verdict) }}>{n.verdict}</span><span className="badge">{n.element}</span><span className="badge">{n.priority}</span></div>
-                    <div style={{ marginTop: 6 }}>{n.action}</div>
+                    <div className="action">{n.action}</div>
                     <div style={{ color: "var(--faint)", fontSize: 13, marginTop: 2 }}>“{n.transcript}” · {n.classifiedBy}</div>
                   </div>
                 </div>
@@ -119,9 +131,9 @@ export default function RevisionPage() {
             </div>
           ))}
         </section>
-        <aside className="card stack">
-          <h3>Structured output</h3>
-          <p style={{ color: "var(--muted)", margin: 0, fontSize: 14 }}>What the producer receives instead of an email: one JSON list, sorted by song position, each item with a section, element, verdict, priority and action.</p>
+        <aside className="card card-sand stack">
+          <h2>What the producer gets</h2>
+          <p style={{ color: "var(--muted)", margin: 0, fontSize: 17 }}>One list instead of an email: sorted by song position, each item with a section, element, keep/change verdict, priority and action.</p>
           <pre className="json" style={{ maxHeight: 420 }}>{JSON.stringify(notes, null, 2)}</pre>
         </aside>
       </div>

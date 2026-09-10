@@ -5,6 +5,7 @@ import { EXPENSE_POLICY_BRIEF } from "@/lib/songBrief";
 import { recordVoiceConsent, VOICE_CONSENT_DISCLOSURE } from "@/lib/consent";
 import type { RecallRecord, VoiceConsent } from "@/lib/recallRecord";
 import { speak, listenOnce, speechSupported } from "@/lib/browserSpeech";
+import { AppHero } from "../AppHero";
 
 /**
  * Encore — the employee-facing voice recall check. Designed to finish in about a minute.
@@ -121,15 +122,20 @@ export default function EncorePage() {
   };
 
   return (
-    <main className="page page-narrow">
-      <div className="eyebrow">Listen again · F5 proof of impact</div>
-      <h1>Encore</h1>
-      <p className="lede">
-        60-second voice recall check for <b style={{ color: "var(--text)" }}>{brief.bangerTitle}</b> · {brief.client} · released {brief.releasedOn}
-      </p>
+    <main className="page">
+      <AppHero
+        eyebrow="Step 3 · Listen again · fixes F5 no proof of impact"
+        title="Encore"
+        what={`Two weeks after "${brief.bangerTitle}" shipped to ${brief.client}, every employee gets a 60-second voice check. It proves the message landed — and tells Business Bangerz what to remix when it didn't.`}
+        impact={[
+          { value: "60s", label: "per employee", tone: "blue" },
+          { value: "+1", label: "billable line item per banger", tone: "red" },
+          { value: "$0", label: "per check to run" },
+        ]}
+      />
 
       {phase === "consent" && (
-        <section className="card stack" style={{ marginTop: 28 }}>
+        <section className="card stack" style={{ marginTop: 36, maxWidth: 900 }}>
           <h2>Before we start</h2>
           <p style={{ color: "var(--muted)", margin: 0 }}>{VOICE_CONSENT_DISCLOSURE}</p>
           <div className="row">
@@ -148,7 +154,7 @@ export default function EncorePage() {
       )}
 
       {phase !== "consent" && (
-        <section className="card stack" style={{ marginTop: 28 }}>
+        <section className="card stack" style={{ marginTop: 36, maxWidth: 900 }}>
           <div className="row spread">
             <span className={`badge ${voiceMode ? "badge-live" : "badge-violet"}`}>{voiceMode ? "voice + tap" : "tap / type"}</span>
             <span className="badge">{elapsed}s</span>

@@ -23,15 +23,30 @@ function recognitionCtor(): (new () => SpeechRecognitionLike) | null {
 
 export const speechSupported = () => recognitionCtor() !== null;
 
-export function speak(text: string, rate = 1.06): Promise<void> {
+/** Chrome loads its voice list asynchronously; wait briefly for it so the first sentence gets the good voice too. */
+function voicesReady(): Promise<void> {
   return new Promise((resolve) => {
     if (typeof window === "undefined" || !window.speechSynthesis) return resolve();
+    if (window.speechSynthesis.getVoices().length) return resolve();
+    const t = setTimeout(resolve, 600);
+    window.speechSynthesis.onvoiceschanged = () => { clearTimeout(t); resolve(); };
+  });
+}
+
+export function speak(text: string, rate = 1.0): Promise<void> {
+  return new Promise(async (resolve) => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return resolve();
+    await voicesReady();
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    const voices = window.speechSynthesis.getVoices();
-    const voice = voices.find((v) => /en[-_]US/i.test(v.lang) && /Samantha|Google US English|Aria|Ava/i.test(v.name)) ?? voices.find((v) => /en[-_]US/i.test(v.lang));
+    // Most natural voice available without downloads: Chrome's neural "Google US English",
+    // then macOS premium/enhanced voices, then Samantha. Never the novelty voices.
+    const voices = window.speechSynthesis.getVoices().filter((v) => /^en[-_]US/i.test(v.lang));
+    const prefer = [/Google US English/i, /Ava|Zoe|Allison|Evan|Nathan/i, /Premium|Enhanced/i, /Samantha/i];
+    const voice = prefer.map((re) => voices.find((v) => re.test(v.name))).find(Boolean) ?? voices[0];
     if (voice) u.voice = voice;
     u.rate = rate;
+    u.pitch = 1.0;
     let settled = false;
     const done = () => { if (!settled) { settled = true; resolve(); } };
     u.onend = done; u.onerror = done;

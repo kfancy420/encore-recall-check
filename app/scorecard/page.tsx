@@ -2,6 +2,7 @@ import { EXPENSE_POLICY_BRIEF } from "@/lib/songBrief";
 import { loadRecallRecords } from "@/lib/recallStore";
 import { aggregateRecallScorecard } from "@/lib/aggregateScorecard";
 import { logRecallEvent } from "@/lib/recallEventLog";
+import { AppHero } from "../AppHero";
 
 export const dynamic = "force-dynamic";
 
@@ -19,22 +20,22 @@ export default function ScorecardPage() {
 
   return (
     <main className="page">
-      <div className="eyebrow">Recall Scorecard · {card.client}</div>
-      <h1>&ldquo;{card.bangerTitle}&rdquo; — did it land?</h1>
-      <p className="lede">
-        {card.employeesChecked} employees checked, 14 days after release · <span className="badge badge-live">{card.liveSessions} live</span>{" "}
-        <span className="badge badge-fixture">{card.employeesChecked - card.liveSessions} fixtures</span>
-      </p>
+      <AppHero
+        eyebrow={`Recall Scorecard · ${card.client}`}
+        title={`Did "${card.bangerTitle}" land?`}
+        what={`${card.employeesChecked} employees checked by Encore, 14 days after release. This is the page Business Bangerz sells: proof, per message and per department, plus the seed for the next banger.`}
+        impact={[
+          { value: pct(card.overallMessageRecall), label: "messages recalled", tone: "blue" },
+          { value: pct(card.behaviorRecallRate), label: "can state the full behavior", tone: "red" },
+          { value: `${card.nextBangerSeed.length}`, label: "message(s) to remix" },
+        ]}
+      />
+      <p className="row" style={{ marginTop: 16 }}><span className="badge badge-live">{card.liveSessions} live session{card.liveSessions === 1 ? "" : "s"} on this machine</span><span className="badge badge-fixture">{card.employeesChecked - card.liveSessions} synthetic employees</span></p>
 
-      <div className="grid grid-3" style={{ marginTop: 28 }}>
-        <div className="stat"><div className="stat-label">Messages recalled</div><div className="stat-value">{pct(card.overallMessageRecall)}</div><div className="stat-sub">average across all required messages</div></div>
-        <div className="stat"><div className="stat-label">Can state the full behavior</div><div className="stat-value">{pct(card.behaviorRecallRate)}</div><div className="stat-sub">where + when + what to attach</div></div>
-        <div className="stat"><div className="stat-label">Cost per check</div><div className="stat-value">${card.costPerSessionUsd.toFixed(2)}</div><div className="stat-sub">hosted pipeline would be ≈ ${card.hostedCostPerSessionUsd}</div></div>
-      </div>
 
       <div className="split" style={{ marginTop: 20 }}>
         <section className="card stack">
-          <h3>By required message</h3>
+          <h2>By required message</h2>
           {card.byMessage.map((m) => (
             <div key={m.messageId} className="stack" style={{ gap: 6 }}>
               <div className="row spread"><span><b>{m.messageId}</b> &nbsp;{m.message}</span><b className={m.recallRate < 0.6 ? "bad" : "ok"}>{pct(m.recallRate)}</b></div>
@@ -42,7 +43,7 @@ export default function ScorecardPage() {
             </div>
           ))}
           <div className="divider" />
-          <h3>Next banger seed</h3>
+          <h2>Next banger seed</h2>
           {card.nextBangerSeed.length === 0 ? (
             <p style={{ margin: 0 }}>Every message cleared 60% — nothing to remix. Sell the sequel.</p>
           ) : (
@@ -51,14 +52,14 @@ export default function ScorecardPage() {
         </section>
 
         <section className="card stack">
-          <h3>By department</h3>
+          <h2>By department</h2>
           <table className="table"><tbody>
             {card.byDepartment.map((d) => (
               <tr key={d.department}><td>{d.department}</td><td style={{ color: "var(--muted)" }}>{d.count} checked</td><td style={{ textAlign: "right" }}><b>{pct(d.recallRate)}</b></td></tr>
             ))}
           </tbody></table>
           <div className="divider" />
-          <h3>Latest checks</h3>
+          <h2>Latest checks</h2>
           <table className="table">
             <thead><tr><th>Employee</th><th>M1</th><th>M2</th><th>M3</th><th>Scorer</th></tr></thead>
             <tbody>
@@ -73,7 +74,7 @@ export default function ScorecardPage() {
           </table>
         </section>
       </div>
-      <p style={{ color: "var(--faint)", fontSize: 13, marginTop: 20 }}>Fixtures are synthetic employees of a fictional client. Live rows come from sessions on this machine.</p>
+      <p style={{ color: "var(--muted)", fontSize: 16, marginTop: 20 }}>Cost per check: ${card.costPerSessionUsd.toFixed(2)} on the local pipeline (a hosted pipeline would be ≈ ${card.hostedCostPerSessionUsd}). Synthetic employees belong to a fictional client; live rows come from sessions on this machine.</p>
     </main>
   );
 }

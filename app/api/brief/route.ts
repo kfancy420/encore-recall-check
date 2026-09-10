@@ -1,15 +1,16 @@
 import { NextResponse } from "next/server";
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { refineBriefWithLocalModel, type BriefAnswer } from "@/lib/bangerBrief";
+import { refineBriefWithLocalModel, type BriefAnswer, type BriefContext } from "@/lib/bangerBrief";
 
 /**
  * POST /api/brief — the Banger Brief workflow: interview answers in, structured song brief out,
  * saved as JSON for the writer.
  */
 export async function POST(req: Request) {
-  const { client, answers } = (await req.json()) as { client: string; answers: BriefAnswer[] };
-  const { brief, refinedBy } = await refineBriefWithLocalModel(answers);
+  const { client, topic, audience, answers } = (await req.json()) as BriefContext & { answers: BriefAnswer[] };
+  const ctx: BriefContext = { client, topic, audience };
+  const { brief, refinedBy } = await refineBriefWithLocalModel(answers, ctx);
   const record = {
     briefId: `brief_${Date.now().toString(36)}`,
     client: client || "Unnamed client (fictional)",

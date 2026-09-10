@@ -1,9 +1,10 @@
 /**
- * A 60-second synthetic backing track generated in the browser with the Web Audio API.
- * Original, royalty-free by construction — no copyrighted recordings anywhere in the suite.
- * Sections change texture so feedback like "the chorus is louder" makes sense:
- * intro (kick only) → verse (kick + bass) → chorus (adds snare, hats, pad) → outro (fade).
+ * "Expense It, Don't Stress It" — Draft 2. A 60-second draft synthesized in the browser with
+ * the Web Audio API: drums, bass, a chord pad in the choruses, and a lead line standing in
+ * for the vocal. Original by construction — no copyrighted recordings anywhere in the suite.
+ * Sections change texture so remarks like "the chorus is louder" or "the lead is buried" land.
  */
+export const TRACK_TITLE = "Expense It, Don't Stress It — Draft 2";
 import { DEMO_SECTIONS } from "./revisionNotes";
 
 export const TRACK_SECONDS = 60;
@@ -32,6 +33,10 @@ export function startDemoTrack(ctx: AudioContext, onEnd: () => void): { stop: ()
       const roots = isChorus(rel) ? chorusRoot : verseRoot;
       bass(ctx, master, t, roots[bar % 4], beat * 0.9);
       if (isChorus(rel) && i % 4 === 0) pad(ctx, master, t, roots[bar % 4] * 2, beat * 4);
+      // Lead line (vocal stand-in): a simple hook in the chorus, a sparser phrase in the verses.
+      const hook = isChorus(rel) ? [4, 4, 7, 9, 7, 4, 2, 0] : [0, -1, 0, -1, 2, -1, 0, -1];
+      const step = hook[i % 8];
+      if (step >= 0) lead(ctx, master, t, roots[bar % 4] * 4 * Math.pow(2, step / 12), beat * (isChorus(rel) ? 0.9 : 0.5), isChorus(rel) ? 0.16 : 0.1);
     }
   }
   master.gain.setValueAtTime(0.6, t0 + 56);
@@ -72,4 +77,11 @@ function pad(ctx: AudioContext, out: AudioNode, t: number, freq: number, dur: nu
     const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.09, t + 0.4); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     o.connect(g).connect(out); o.start(t); o.stop(t + dur);
   }
+}
+
+function lead(ctx: AudioContext, out: AudioNode, t: number, freq: number, dur: number, level: number) {
+  const o = ctx.createOscillator(); o.type = "square"; o.frequency.value = freq;
+  const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 2200;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(level, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(f).connect(g).connect(out); o.start(t); o.stop(t + dur + 0.05);
 }
