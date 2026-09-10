@@ -138,7 +138,7 @@ export default function EncorePage() {
       />
 
       {phase === "consent" && (
-        <section className="card stack section-gap" style={{ maxWidth: 900 }}>
+        <section className="card stack section-gap">
           <h2>Before we start</h2>
           <p style={{ color: "var(--muted)", margin: 0 }}>{VOICE_CONSENT_DISCLOSURE}</p>
           <div className="row">
@@ -157,7 +157,7 @@ export default function EncorePage() {
       )}
 
       {phase !== "consent" && (
-        <section className="card stack section-gap" style={{ maxWidth: 900 }}>
+        <section className="card stack section-gap">
           <div className="row spread">
             <span className={`badge ${voiceMode ? "badge-live" : "badge-violet"}`}>{voiceMode ? "voice + tap" : "tap / type"}</span>
             <span className="badge">{elapsed}s</span>

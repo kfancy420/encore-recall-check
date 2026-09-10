@@ -15,8 +15,8 @@ export function AppHero({ eyebrow, title, what, impact, outcome }: {
       {outcome && (
         <div className="outcome">
           <div className="outcome-head">
-            <span className={`outcome-kind ${outcome.kind === "Revenue" ? "red" : "blue"}`}>{outcome.kind}</span>
-            <span className="outcome-friction">{outcome.friction}</span>
+            <span className={`badge ${outcome.kind === "Revenue" ? "badge-accent" : "badge-violet"}`}>{outcome.kind}</span>
+            <span className="badge">{outcome.friction}</span>
           </div>
           <div className="outcome-claim">{outcome.claim}</div>
           <div className="outcome-because">{outcome.because}</div>
