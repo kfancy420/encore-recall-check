@@ -1,0 +1,45 @@
+{
+  "recordId": "rec_mtuv8xub",
+  "bangerId": "acme-expense-it-2026",
+  "employeeAlias": "Demo Employee",
+  "department": "Dispatch",
+  "checkedAt": "2026-09-10T01:46:08.339Z",
+  "daysSinceRelease": 15,
+  "consent": {
+    "granted": true,
+    "grantedAt": "2026-09-10T01:46:08.212Z",
+    "disclosure": "Offline fixture — consent text lives in lib/consent.ts",
+    "transcriptRetentionDays": 30,
+    "audioRetained": false,
+    "withdrawalInstructions": "Reply WITHDRAW to the Encore link."
+  },
+  "answers": [
+    {
+      "messageId": "M1",
+      "transcript": "It goes in Spendly now, on the phone. No more emailing my manager.",
+      "recalled": true,
+      "confidence": 0.7,
+      "evidence": "said \"spendly\""
+    },
+    {
+      "messageId": "M2",
+      "transcript": "Um, not sure Like a week? Seven days I think.",
+      "recalled": true,
+      "confidence": 0.7,
+      "evidence": "said \"seven days\"",
+      "followUpTranscript": "Like a week? Seven days I think."
+    },
+    {
+      "messageId": "M3",
+      "transcript": "You have to attach a photo of the receipt.",
+      "recalled": true,
+      "confidence": 0.7,
+      "evidence": "said \"photo\""
+    }
+  ],
+  "messageRecallRate": 1,
+  "behaviorRecalled": true,
+  "scorer": "key-phrase",
+  "sessionCostUsd": 0,
+  "source": "live"
+}
