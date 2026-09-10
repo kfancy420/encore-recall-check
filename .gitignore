@@ -43,3 +43,4 @@ next-env.d.ts
 # runtime data from live sessions (fixtures stay committed)
 data/events.jsonl
 npm-install.log
+dev.log
