@@ -50,7 +50,7 @@ Context (the behavior leadership wants): "${brief.targetBehavior}"
 The employee was asked: "${message.question}"
 The employee said: "${transcript}"
 Did the employee's answer show they remember the message? Answer with JSON only:
-{"recalled": true or false, "confidence": 0.0 to 1.0, "evidence": "short quote or reason"}`;
+{"recalled": true or false, "confidence": 0.0 to 1.0, "evidence": "<the words from the employee answer that show recall, or why it does not>"}`;
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 20000);
