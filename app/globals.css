@@ -27,7 +27,7 @@ p { line-height: 1.5; }
 .page { max-width: 1240px; margin: 0 auto; padding: 32px 28px 96px; }
 .page-narrow { max-width: 900px; }
 .eyebrow { color: var(--accent); font-weight: 800; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 12px; }
-.lede { color: var(--muted); font-size: 21px; line-height: 1.45; max-width: none; margin: 14px 0 0; }
+.lede { color: var(--muted); font-size: 21px; line-height: 1.45; max-width: none; width: 100%; margin: 14px 0 0; }
 .hero { display: grid; grid-template-columns: 1fr; gap: 24px; }
 @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } }
 .impact { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -115,9 +115,9 @@ details summary { cursor: pointer; color: var(--muted); font-weight: 700; }
 .portal-step { font-size: 14px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
 .portal-name { font-size: clamp(34px, 3.4vw, 52px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin-top: auto; }
 .portal-big .portal-name { font-size: clamp(44px, 4.6vw, 72px); }
-.portal-line { font-size: 24px; font-weight: 700; line-height: 1.2; }
+.portal-line { font-size: 24px; font-weight: 700; line-height: 1.2; max-width: none; }
 .portal-big .portal-line { font-size: 30px; }
-.portal-impact { font-size: 17px; opacity: .85; line-height: 1.35; }
+.portal-impact { font-size: 17px; opacity: .85; line-height: 1.35; max-width: none; }
 .portal-go { position: absolute; top: 26px; right: 30px; font-weight: 800; font-size: 18px; opacity: .9; }
 
 /* Global player in the nav */

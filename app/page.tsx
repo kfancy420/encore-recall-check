@@ -14,7 +14,7 @@ export default function Home() {
     <main className="page">
       <div className="eyebrow">Built for Business Bangerz</div>
       <h1 style={{ fontSize: "clamp(48px, 7vw, 92px)" }}>Your Banger Loop,<br />closed.</h1>
-      <p className="lede" style={{ fontSize: 26, maxWidth: "50ch" }}>
+      <p className="lede" style={{ fontSize: 26 }}>
         You already win Create and Release. This is the rest of the loop: proof that your bangers land, revisions
         without the email, and your clients&apos; own sounds and voices in the song — every piece runs for $0 per use,
         and one person can run all of it.
